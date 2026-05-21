@@ -1,1277 +1,1407 @@
 <!doctype html>
-<html lang="ko" data-theme="dark">
+<html lang="ko">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-<title>Vibe Coding — 본업에 집중하세요</title>
-<meta name="description" content="반복 업무는 AI에게. Vibe Coding으로 자동화·랜딩페이지·AI 앱까지 직접 만드는 실전 교육." />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Atlas WBS · 프로젝트 공정 관리</title>
 <style>
-/* ─────────────────────────────────────────
-   Vibe Coding — Landing Styles
-   Dark-first, purple→neon-blue gradient
-───────────────────────────────────────── */
-
-:root {
-  /* Brand */
-  --c-purple: #7C3AED;
-  --c-blue:   #60A5FA;
-  --grad:     linear-gradient(135deg, #7C3AED 0%, #60A5FA 100%);
-  --grad-soft: linear-gradient(135deg, rgba(124,58,237,.18) 0%, rgba(96,165,250,.18) 100%);
-
-  /* Dark theme (default) */
-  --bg:        #07070C;
-  --bg-elev:   #0F0F18;
-  --bg-card:   rgba(255,255,255,.035);
-  --bg-card-h: rgba(255,255,255,.06);
-  --border:    rgba(255,255,255,.08);
-  --border-strong: rgba(255,255,255,.14);
-  --fg:        #F4F4F8;
-  --fg-mute:   #A0A0B2;
-  --fg-dim:    #6B6B7B;
-
-  /* Type scale */
-  --f-display: clamp(2.5rem, 7vw, 5.5rem);
-  --f-h2:      clamp(1.75rem, 3.6vw, 2.75rem);
-  --f-h3:      clamp(1.15rem, 1.8vw, 1.35rem);
-  --f-body:    1rem;
-  --f-small:   .875rem;
-
-  /* Layout */
-  --max-w:     1180px;
-  --pad-x:     clamp(1.25rem, 4vw, 2.5rem);
-  --radius:    18px;
-  --radius-lg: 24px;
-
-  /* Motion */
-  --ease: cubic-bezier(.2,.7,.2,1);
-
-  font-family:
-    -apple-system, BlinkMacSystemFont, "Segoe UI", "Pretendard",
-    "Apple SD Gothic Neo", "Noto Sans KR", Roboto, "Helvetica Neue",
-    Arial, sans-serif;
-}
-
-[data-theme="light"] {
-  --bg:        #F7F7FB;
-  --bg-elev:   #FFFFFF;
-  --bg-card:   #FFFFFF;
-  --bg-card-h: #FFFFFF;
-  --border:    rgba(15, 15, 24, .08);
-  --border-strong: rgba(15, 15, 24, .16);
-  --fg:        #0F0F18;
-  --fg-mute:   #4A4A5A;
-  --fg-dim:    #8A8A98;
-  --grad-soft: linear-gradient(135deg, rgba(124,58,237,.10) 0%, rgba(96,165,250,.10) 100%);
-}
-
-/* ───── Reset / base ───── */
-*,*::before,*::after { box-sizing: border-box; }
-html,body { margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
-body {
-  background: var(--bg);
-  color: var(--fg);
-  font-size: var(--f-body);
-  line-height: 1.55;
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
-  overflow-x: hidden;
-  transition: background .35s var(--ease), color .35s var(--ease);
-}
-img,svg { display: block; max-width: 100%; }
-button { font: inherit; color: inherit; cursor: pointer; background: none; border: 0; }
-a { color: inherit; text-decoration: none; }
-ul,ol { margin: 0; padding: 0; list-style: none; }
-h1,h2,h3 { margin: 0; line-height: 1.15; letter-spacing: -.02em; font-weight: 800; }
-p { margin: 0; }
-input { font: inherit; color: inherit; }
-
-.sr-only {
-  position: absolute; width: 1px; height: 1px;
-  padding: 0; margin: -1px; overflow: hidden;
-  clip: rect(0,0,0,0); white-space: nowrap; border: 0;
-}
-
-/* SVG default */
-svg { fill: none; stroke: currentColor; stroke-width: 1.6; }
-
-/* ───── Utility text ───── */
-.grad-text {
-  background: var(--grad);
-  -webkit-background-clip: text;
-          background-clip: text;
-  color: transparent;
-}
-
-/* ───── Header ───── */
-.site-header {
-  position: sticky; top: 0; z-index: 50;
-  display: flex; align-items: center; justify-content: space-between;
-  gap: 1rem;
-  padding: .9rem var(--pad-x);
-  background: color-mix(in oklab, var(--bg) 70%, transparent);
-  backdrop-filter: saturate(140%) blur(14px);
-  -webkit-backdrop-filter: saturate(140%) blur(14px);
-  border-bottom: 1px solid var(--border);
-}
-.brand {
-  display: inline-flex; align-items: center; gap: .6rem;
-  font-weight: 800; font-size: 1.08rem; letter-spacing: -.01em;
-}
-.brand-mark {
-  position: relative; width: 26px; height: 26px;
-  display: inline-grid; place-items: center;
-  border-radius: 8px;
-  background: var(--grad);
-  box-shadow: 0 0 0 1px rgba(255,255,255,.08) inset,
-              0 8px 24px -8px rgba(124,58,237,.55);
-}
-.brand-mark .dot {
-  position: absolute; width: 5px; height: 5px; border-radius: 999px;
-  background: #fff; opacity: .9;
-}
-.brand-mark .d1 { top: 6px; left: 6px; }
-.brand-mark .d2 { top: 6px; right: 6px; opacity: .6; }
-.brand-mark .d3 { bottom: 6px; left: 50%; transform: translateX(-50%); opacity: .75; }
-.brand-accent {
-  background: var(--grad);
-  -webkit-background-clip: text; background-clip: text; color: transparent;
-  margin-left: 2px;
-}
-
-.site-nav {
-  display: flex; gap: 1.5rem;
-  font-size: .95rem; color: var(--fg-mute);
-}
-.site-nav a { transition: color .2s var(--ease); }
-.site-nav a:hover { color: var(--fg); }
-
-.header-actions { display: flex; align-items: center; gap: .5rem; }
-
-.theme-toggle {
-  width: 38px; height: 38px; border-radius: 999px;
-  border: 1px solid var(--border-strong);
-  display: grid; place-items: center;
-  color: var(--fg-mute);
-  transition: color .2s var(--ease), border-color .2s var(--ease),
-              background .2s var(--ease), transform .2s var(--ease);
-}
-.theme-toggle:hover { color: var(--fg); border-color: var(--fg-mute); transform: translateY(-1px); }
-.theme-toggle .icon { width: 18px; height: 18px; }
-.theme-toggle .icon-sun  { display: none; }
-.theme-toggle .icon-moon { display: block; }
-[data-theme="light"] .theme-toggle .icon-sun  { display: block; }
-[data-theme="light"] .theme-toggle .icon-moon { display: none; }
-
-/* Mobile menu button */
-.menu-toggle {
-  display: none;
-  width: 38px; height: 38px; border-radius: 10px;
-  border: 1px solid var(--border-strong);
-  padding: 0 9px;
-  flex-direction: column; gap: 4px; align-items: stretch; justify-content: center;
-}
-.menu-toggle span {
-  height: 2px; background: var(--fg); border-radius: 2px;
-  transition: transform .25s var(--ease), opacity .25s var(--ease);
-}
-.menu-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
-.menu-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
-.menu-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
-
-.mobile-nav {
-  position: sticky; top: 60px; z-index: 49;
-  display: flex; flex-direction: column;
-  padding: .5rem var(--pad-x) 1rem;
-  background: var(--bg-elev);
-  border-bottom: 1px solid var(--border);
-}
-.mobile-nav[hidden] { display: none; }
-.mobile-nav a {
-  padding: .85rem .25rem;
-  border-bottom: 1px solid var(--border);
-  color: var(--fg);
-}
-.mobile-nav a:last-child { border-bottom: 0; }
-
-/* ───── Sections ───── */
-.section {
-  max-width: var(--max-w);
-  margin: 0 auto;
-  padding: clamp(4rem, 9vw, 7rem) var(--pad-x);
-}
-.section-head {
-  max-width: 720px;
-  margin: 0 auto clamp(2.5rem, 5vw, 4rem);
-  text-align: center;
-}
-.section-tag {
-  display: inline-block;
-  font-size: .75rem; letter-spacing: .18em; text-transform: uppercase;
-  color: var(--fg-mute);
-  padding: .35rem .8rem;
-  border-radius: 999px;
-  border: 1px solid var(--border-strong);
-  background: var(--bg-card);
-  margin-bottom: 1rem;
-}
-.section-title { font-size: var(--f-h2); }
-.section-desc {
-  margin-top: 1rem;
-  color: var(--fg-mute);
-  font-size: 1.05rem;
-  text-wrap: pretty;
-}
-
-/* ───── HERO ───── */
-.hero {
-  position: relative;
-  isolation: isolate;
-  overflow: hidden;
-  padding: clamp(5rem, 11vw, 9rem) var(--pad-x) clamp(4rem, 8vw, 6rem);
-  max-width: none;
-  margin: 0;
-}
-.hero-bg { position: absolute; inset: 0; z-index: -1; }
-.hero-bg .orb {
-  position: absolute; border-radius: 50%;
-  filter: blur(80px); opacity: .55;
-  pointer-events: none;
-}
-.orb-a {
-  width: 520px; height: 520px;
-  background: radial-gradient(circle, #7C3AED 0%, transparent 70%);
-  top: -10%; left: -8%;
-  animation: orbFloat 14s ease-in-out infinite alternate;
-}
-.orb-b {
-  width: 480px; height: 480px;
-  background: radial-gradient(circle, #60A5FA 0%, transparent 70%);
-  top: 10%; right: -10%;
-  animation: orbFloat 18s ease-in-out infinite alternate-reverse;
-}
-[data-theme="light"] .hero-bg .orb { opacity: .25; }
-
-@keyframes orbFloat {
-  0%   { transform: translate3d(0,0,0) scale(1); }
-  100% { transform: translate3d(40px,30px,0) scale(1.05); }
-}
-
-.grid-overlay {
-  position: absolute; inset: 0;
-  background-image:
-    linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px);
-  background-size: 56px 56px;
-  mask-image: radial-gradient(ellipse at 50% 30%, #000 35%, transparent 75%);
-  -webkit-mask-image: radial-gradient(ellipse at 50% 30%, #000 35%, transparent 75%);
-}
-[data-theme="light"] .grid-overlay {
-  background-image:
-    linear-gradient(rgba(15,15,24,.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(15,15,24,.05) 1px, transparent 1px);
-}
-
-.hero-inner {
-  max-width: var(--max-w);
-  margin: 0 auto;
-  text-align: center;
-  display: flex; flex-direction: column; align-items: center;
-}
-.eyebrow {
-  display: inline-flex; align-items: center; gap: .55rem;
-  padding: .45rem 1rem;
-  border-radius: 999px;
-  background: var(--bg-card);
-  border: 1px solid var(--border-strong);
-  font-size: .85rem; color: var(--fg-mute);
-  margin-bottom: 1.75rem;
-}
-.pulse {
-  width: 8px; height: 8px; border-radius: 999px;
-  background: #22D3A8;
-  box-shadow: 0 0 0 0 rgba(34,211,168,.55);
-  animation: pulse 2s ease-out infinite;
-}
-@keyframes pulse {
-  0%   { box-shadow: 0 0 0 0 rgba(34,211,168,.55); }
-  100% { box-shadow: 0 0 0 12px rgba(34,211,168,0); }
-}
-
-.hero-title {
-  font-size: var(--f-display);
-  font-weight: 900;
-  letter-spacing: -.03em;
-  line-height: 1.05;
-  margin-bottom: 1.25rem;
-  text-wrap: balance;
-}
-.hero-sub {
-  color: var(--fg-mute);
-  font-size: clamp(1.05rem, 1.6vw, 1.25rem);
-  max-width: 36ch;
-  margin-bottom: 2.5rem;
-  text-wrap: pretty;
-}
-
-/* ───── Forms / CTA ───── */
-.apply-form {
-  display: flex; gap: .5rem;
-  width: 100%; max-width: 560px;
-  padding: .4rem;
-  background: var(--bg-card);
-  border: 1px solid var(--border-strong);
-  border-radius: 999px;
-  transition: border-color .2s var(--ease), box-shadow .25s var(--ease);
-}
-.apply-form:focus-within {
-  border-color: transparent;
-  box-shadow:
-    0 0 0 1px rgba(124,58,237,.55),
-    0 14px 40px -14px rgba(124,58,237,.45);
-}
-.apply-form input {
-  flex: 1; min-width: 0;
-  padding: .85rem 1.1rem;
-  background: transparent; border: 0; outline: 0;
-  color: var(--fg);
-  font-size: .98rem;
-}
-.apply-form input::placeholder { color: var(--fg-dim); }
-
-.btn {
-  display: inline-flex; align-items: center; gap: .45rem;
-  padding: .85rem 1.4rem;
-  border-radius: 999px;
-  font-weight: 700; font-size: .96rem;
-  white-space: nowrap;
-  transition: transform .2s var(--ease), box-shadow .25s var(--ease), filter .2s var(--ease);
-}
-.btn-primary {
-  color: #fff;
-  background: var(--grad);
-  box-shadow: 0 8px 24px -10px rgba(124,58,237,.7),
-              0 4px 12px -6px rgba(96,165,250,.55);
-}
-.btn-primary:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 14px 36px -10px rgba(124,58,237,.8),
-              0 0 0 6px rgba(124,58,237,.18),
-              0 0 24px rgba(96,165,250,.45);
-  filter: brightness(1.05);
-}
-.btn-primary:active { transform: translateY(0); }
-.btn .btn-arrow { width: 18px; height: 18px; stroke-width: 2; transition: transform .2s var(--ease); }
-.btn:hover .btn-arrow { transform: translateX(3px); }
-
-.hero-meta {
-  display: flex; flex-wrap: wrap; justify-content: center;
-  gap: clamp(1.5rem, 4vw, 3rem);
-  margin-top: 3rem;
-  color: var(--fg-mute);
-}
-.hero-meta li {
-  display: flex; flex-direction: column; align-items: center;
-}
-.hero-meta strong {
-  font-size: 2rem; font-weight: 800;
-  background: var(--grad);
-  -webkit-background-clip: text; background-clip: text; color: transparent;
-  line-height: 1;
-}
-.hero-meta span { font-size: .85rem; margin-top: .35rem; color: var(--fg-dim); }
-
-/* ───── Cards (shared) ───── */
-.cards { display: grid; gap: 1.5rem; }
-.cards-3 { grid-template-columns: repeat(3, 1fr); }
-.card {
-  position: relative;
-  padding: 1.75rem 1.6rem 1.6rem;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  transition: transform .25s var(--ease), background .25s var(--ease),
-              border-color .25s var(--ease), box-shadow .25s var(--ease);
-}
-.card:hover {
-  transform: translateY(-4px);
-  background: var(--bg-card-h);
-  border-color: var(--border-strong);
-  box-shadow: 0 24px 60px -30px rgba(124,58,237,.4),
-              0 12px 30px -20px rgba(96,165,250,.35);
-}
-.card h3 {
-  font-size: var(--f-h3); font-weight: 700;
-  margin: .85rem 0 .6rem;
-  line-height: 1.3;
-}
-.card p { color: var(--fg-mute); font-size: .96rem; }
-
-/* Audience */
-.audience-card .card-num {
-  font-size: .75rem; letter-spacing: .2em; color: var(--fg-dim);
-  font-weight: 700;
-}
-.card-icon {
-  width: 48px; height: 48px;
-  display: grid; place-items: center;
-  border-radius: 14px;
-  background: var(--grad-soft);
-  border: 1px solid var(--border-strong);
-  margin-top: .75rem;
-}
-.card-icon svg { width: 24px; height: 24px; stroke: url(#g) ; }
-/* fallback gradient via filter */
-.card-icon svg { color: #fff; }
-.audience-card:hover .card-icon { background: var(--grad); }
-.audience-card:hover .card-icon svg { color: #fff; }
-
-/* Results */
-.result-card { padding: 0; overflow: hidden; }
-.preview {
-  position: relative;
-  aspect-ratio: 16/10;
-  background: linear-gradient(160deg, rgba(124,58,237,.18), rgba(96,165,250,.10));
-  border-bottom: 1px solid var(--border);
-  overflow: hidden;
-}
-.result-meta { padding: 1.4rem 1.6rem 1.6rem; }
-.tag {
-  display: inline-block;
-  font-size: .7rem; letter-spacing: .18em; text-transform: uppercase;
-  color: var(--c-blue);
-  margin-bottom: .5rem; font-weight: 700;
-}
-
-/* Result: landing preview */
-.preview-landing { padding: 1rem; display: flex; flex-direction: column; }
-.browser-bar {
-  display: flex; align-items: center; gap: 6px;
-  padding: 0 0 .75rem;
-}
-.browser-bar > span {
-  width: 9px; height: 9px; border-radius: 999px;
-  background: rgba(255,255,255,.2);
-}
-.browser-bar em {
-  margin-left: .75rem; font-style: normal;
-  font-size: .7rem; color: var(--fg-dim);
-  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-}
-.preview-body {
-  flex: 1;
-  background: rgba(0,0,0,.18);
-  border-radius: 10px;
-  padding: 1rem;
-  display: flex; flex-direction: column; gap: .55rem;
-}
-[data-theme="light"] .preview-body { background: rgba(15,15,24,.04); }
-.bar {
-  height: 10px; border-radius: 999px;
-  background: var(--grad);
-  opacity: .9;
-}
-.bar-lg { width: 80%; height: 14px; }
-.bar-md { width: 55%; opacity: .6; background: var(--fg-mute); }
-.pill {
-  width: 90px; height: 22px; border-radius: 999px;
-  background: var(--grad);
-  margin-top: .15rem;
-}
-.preview-grid {
-  margin-top: auto;
-  display: grid; grid-template-columns: repeat(3,1fr); gap: .5rem;
-}
-.preview-grid > div {
-  aspect-ratio: 1/1; border-radius: 8px;
-  background: rgba(255,255,255,.06);
-  border: 1px solid var(--border);
-}
-[data-theme="light"] .preview-grid > div { background: rgba(15,15,24,.04); }
-
-/* Result: flow preview */
-.preview-flow {
-  display: flex; align-items: center; justify-content: center; gap: .55rem;
-  padding: 1.5rem 1rem;
-}
-.flow-node {
-  padding: .55rem .85rem;
-  background: rgba(255,255,255,.08);
-  border: 1px solid var(--border-strong);
-  border-radius: 12px;
-  font-size: .85rem; font-weight: 600;
-  color: var(--fg);
-  white-space: nowrap;
-}
-.flow-node.accent {
-  background: var(--grad);
-  border-color: transparent;
-  color: #fff;
-  box-shadow: 0 8px 24px -10px rgba(124,58,237,.7);
-}
-.flow-arrow {
-  flex: 0 0 28px; height: 2px;
-  background: linear-gradient(90deg, var(--c-purple), var(--c-blue));
-  border-radius: 2px;
-  position: relative;
-}
-.flow-arrow::after {
-  content: '';
-  position: absolute; right: -4px; top: 50%;
-  transform: translateY(-50%);
-  width: 0; height: 0;
-  border-left: 6px solid var(--c-blue);
-  border-top: 4px solid transparent;
-  border-bottom: 4px solid transparent;
-}
-.flow-spark {
-  position: absolute; inset: 0; pointer-events: none;
-  background: radial-gradient(ellipse at 50% 50%, rgba(96,165,250,.25), transparent 60%);
-}
-
-/* Result: chat preview */
-.preview-chat {
-  display: flex; flex-direction: column; gap: .5rem;
-  padding: 1.25rem 1.25rem 1.5rem;
-  justify-content: flex-end;
-}
-.msg {
-  padding: .55rem .85rem;
-  border-radius: 14px;
-  font-size: .85rem; max-width: 75%;
-}
-.msg-bot {
-  background: rgba(255,255,255,.08);
-  border: 1px solid var(--border);
-  align-self: flex-start;
-  border-bottom-left-radius: 4px;
-}
-.msg-user {
-  background: var(--grad);
-  color: #fff;
-  align-self: flex-end;
-  border-bottom-right-radius: 4px;
-}
-.msg.typing { display: inline-flex; gap: 4px; padding: .65rem .85rem; }
-.msg.typing span {
-  width: 6px; height: 6px; border-radius: 999px;
-  background: var(--fg-mute);
-  animation: typing 1.2s ease-in-out infinite;
-}
-.msg.typing span:nth-child(2) { animation-delay: .15s; }
-.msg.typing span:nth-child(3) { animation-delay: .3s; }
-@keyframes typing {
-  0%, 80%, 100% { transform: translateY(0); opacity: .4; }
-  40% { transform: translateY(-4px); opacity: 1; }
-}
-
-/* ───── Timeline / Curriculum ───── */
-.timeline {
-  position: relative;
-  display: flex; flex-direction: column; gap: 1.5rem;
-  max-width: 880px;
-  margin: 0 auto;
-}
-.step {
-  display: grid;
-  grid-template-columns: 64px 1fr;
-  gap: 1.25rem;
-  align-items: stretch;
-}
-.step-rail {
-  position: relative;
-  display: flex; justify-content: center;
-}
-.step-rail::before {
-  content: '';
-  position: absolute; top: 0; bottom: -1.5rem;
-  width: 2px; left: 50%; transform: translateX(-50%);
-  background: linear-gradient(180deg, var(--border-strong), transparent);
-}
-.step:last-child .step-rail::before { display: none; }
-.step-dot {
-  position: relative; z-index: 1;
-  margin-top: 1.4rem;
-  width: 16px; height: 16px; border-radius: 999px;
-  background: var(--bg);
-  border: 2px solid var(--border-strong);
-  box-shadow: 0 0 0 4px var(--bg);
-  transition: border-color .25s var(--ease), background .25s var(--ease),
-              box-shadow .25s var(--ease);
-}
-.step.in-view .step-dot {
-  background: var(--grad);
-  border-color: transparent;
-  box-shadow: 0 0 0 4px var(--bg), 0 0 22px rgba(124,58,237,.6);
-}
-
-.step-card {
-  padding: 1.5rem 1.6rem;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  transition: transform .25s var(--ease), background .25s var(--ease),
-              border-color .25s var(--ease), box-shadow .25s var(--ease);
-}
-.step-card:hover {
-  transform: translateY(-3px);
-  background: var(--bg-card-h);
-  border-color: var(--border-strong);
-  box-shadow: 0 24px 60px -30px rgba(124,58,237,.4);
-}
-.step-card.highlight {
-  background: linear-gradient(160deg, rgba(124,58,237,.10), rgba(96,165,250,.06));
-  border-color: rgba(124,58,237,.35);
-}
-.step-head {
-  display: flex; flex-wrap: wrap; align-items: baseline; gap: .75rem 1rem;
-  margin-bottom: .65rem;
-}
-.step-num {
-  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-size: .78rem; letter-spacing: .14em;
-  color: var(--c-blue); font-weight: 700;
-}
-.step-card h3 { font-size: 1.25rem; font-weight: 700; }
-.step-body { color: var(--fg-mute); margin-bottom: 1rem; }
-.step-unlock {
-  display: flex; flex-direction: column; gap: .35rem;
-  padding-top: 1rem;
-  border-top: 1px dashed var(--border-strong);
-}
-.step-unlock li {
-  position: relative;
-  padding-left: 1.4rem;
-  font-size: .92rem; color: var(--fg);
-}
-.step-unlock li::before {
-  content: '';
-  position: absolute; left: 0; top: .55em;
-  width: 14px; height: 2px; border-radius: 2px;
-  background: var(--grad);
-}
-
-/* Apply block (bottom CTA) */
-.apply-block {
-  margin: clamp(3rem, 6vw, 5rem) auto 0;
-  max-width: 720px;
-  text-align: center;
-  padding: clamp(2rem, 4vw, 3rem) clamp(1.5rem, 4vw, 2.5rem);
-  background: var(--bg-card);
-  border: 1px solid var(--border-strong);
-  border-radius: var(--radius-lg);
-  position: relative; overflow: hidden;
-}
-.apply-block::before {
-  content: '';
-  position: absolute; inset: 0;
-  background: var(--grad-soft);
-  z-index: -1;
-}
-.apply-title { font-size: clamp(1.4rem, 2.4vw, 1.85rem); }
-.apply-desc { color: var(--fg-mute); margin: .7rem 0 1.75rem; }
-.apply-block .apply-form { margin: 0 auto; }
-
-/* ───── Footer ───── */
-.site-footer {
-  border-top: 1px solid var(--border);
-  background: var(--bg-elev);
-}
-.footer-inner {
-  max-width: var(--max-w);
-  margin: 0 auto;
-  padding: 3rem var(--pad-x) calc(3rem + env(safe-area-inset-bottom));
-  display: grid;
-  grid-template-columns: 1.4fr 1fr 1fr;
-  gap: 2rem;
-  align-items: start;
-}
-.footer-brand .brand-name { font-size: 1.2rem; font-weight: 800; }
-.footer-tag { color: var(--fg-mute); margin-top: .5rem; font-size: .92rem; max-width: 30ch; }
-.footer-links {
-  display: flex; flex-wrap: wrap; gap: .5rem 1.5rem;
-  color: var(--fg-mute); font-size: .92rem;
-}
-.footer-links a:hover { color: var(--fg); }
-.footer-meta { color: var(--fg-dim); font-size: .82rem; text-align: right; }
-
-/* ───── Mobile sticky CTA ───── */
-.mobile-cta {
-  position: fixed;
-  left: 1rem; right: 1rem;
-  bottom: calc(1rem + env(safe-area-inset-bottom));
-  z-index: 60;
-  display: none;
-  align-items: center; justify-content: center; gap: .5rem;
-  padding: 1rem 1.25rem;
-  color: #fff; font-weight: 700;
-  border-radius: 999px;
-  background: var(--grad);
-  box-shadow: 0 18px 40px -14px rgba(124,58,237,.7),
-              0 0 0 1px rgba(255,255,255,.08) inset;
-  transform: translateY(120%);
-  transition: transform .35s var(--ease), filter .2s var(--ease);
-}
-.mobile-cta svg { width: 18px; height: 18px; stroke-width: 2; }
-.mobile-cta.visible { transform: translateY(0); }
-.mobile-cta:hover { filter: brightness(1.06); }
-
-/* ───── Toast ───── */
-.toast {
-  position: fixed;
-  left: 50%;
-  bottom: calc(2rem + env(safe-area-inset-bottom));
-  transform: translate(-50%, 30px);
-  z-index: 80;
-  padding: .9rem 1.2rem;
-  background: var(--bg-elev);
-  color: var(--fg);
-  border: 1px solid var(--border-strong);
-  border-radius: 14px;
-  box-shadow: 0 24px 60px -20px rgba(0,0,0,.5);
-  font-size: .92rem;
-  display: flex; align-items: center; gap: .6rem;
-  opacity: 0;
-  transition: opacity .25s var(--ease), transform .35s var(--ease);
-  max-width: calc(100vw - 2rem);
-}
-.toast.show { opacity: 1; transform: translate(-50%, 0); }
-.toast::before {
-  content: '';
-  width: 8px; height: 8px; border-radius: 999px;
-  background: #22D3A8;
-  box-shadow: 0 0 12px rgba(34,211,168,.6);
-}
-.toast.error::before { background: #F87171; box-shadow: 0 0 12px rgba(248,113,113,.6); }
-
-/* ───── Reveal animation ───── */
-.reveal {
-  opacity: 0;
-  transform: translateY(28px);
-  transition: opacity .8s var(--ease), transform .8s var(--ease);
-}
-.reveal.in-view { opacity: 1; transform: none; }
-@media (prefers-reduced-motion: reduce) {
-  .reveal { opacity: 1; transform: none; transition: none; }
-  .orb-a, .orb-b, .pulse, .msg.typing span { animation: none; }
-  html { scroll-behavior: auto; }
-}
-
-/* ───── Responsive ───── */
-@media (max-width: 900px) {
-  .cards-3 { grid-template-columns: 1fr 1fr; }
-  .footer-inner { grid-template-columns: 1fr 1fr; }
-  .footer-meta { grid-column: span 2; text-align: left; }
-}
-
-@media (max-width: 768px) {
-  .site-nav { display: none; }
-  .menu-toggle { display: inline-flex; }
-  .cards-3 { grid-template-columns: 1fr; }
-
-  .apply-form {
-    flex-direction: column;
-    border-radius: 20px;
-    padding: .55rem;
+  :root {
+    /* dark (default) */
+    --bg-0: #07070C;
+    --bg-1: #0E0E16;
+    --bg-2: #14141E;
+    --bg-3: #1B1B28;
+    --bg-4: #232334;
+    --border: rgba(255,255,255,.07);
+    --border-strong: rgba(255,255,255,.12);
+    --text-0: #FAFAFC;
+    --text-1: #C8C9D4;
+    --text-2: #8488A0;
+    --text-3: #565A72;
+    --accent-1: #7C3AED;
+    --accent-2: #60A5FA;
+    --grad: linear-gradient(135deg, #7C3AED 0%, #60A5FA 100%);
+    --grad-soft: linear-gradient(135deg, rgba(124,58,237,.18), rgba(96,165,250,.18));
+    --ok: #34D399;
+    --warn: #FBBF24;
+    --danger: #F87171;
+    --info: #38BDF8;
+    --shadow-glow: 0 0 0 1px rgba(124,58,237,.35), 0 8px 32px rgba(124,58,237,.35), 0 4px 18px rgba(96,165,250,.25);
+    --shadow-card: 0 1px 0 rgba(255,255,255,.04) inset, 0 12px 32px rgba(0,0,0,.45);
+    --radius-sm: 6px;
+    --radius: 10px;
+    --radius-lg: 16px;
+    --font-sans: "Pretendard", -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", "Apple SD Gothic Neo", "Noto Sans KR", system-ui, sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    --fs-12: 12px;
+    --fs-13: 13px;
+    --fs-14: 14px;
+    --fs-16: 16px;
+    --fs-20: 20px;
+    --fs-28: 28px;
+    --fs-40: 40px;
+    --day-w: 28px;
+    --row-h: 56px;
   }
-  .apply-form input { padding: .8rem 1rem; }
-  .apply-form .btn { width: 100%; justify-content: center; }
+  [data-theme="light"] {
+    --bg-0: #F4F5F9;
+    --bg-1: #FFFFFF;
+    --bg-2: #FAFBFD;
+    --bg-3: #F1F2F7;
+    --bg-4: #E7E9F0;
+    --border: rgba(15,23,42,.08);
+    --border-strong: rgba(15,23,42,.14);
+    --text-0: #0B0F1F;
+    --text-1: #2D3247;
+    --text-2: #5A6079;
+    --text-3: #8C92AB;
+    --grad-soft: linear-gradient(135deg, rgba(124,58,237,.10), rgba(96,165,250,.10));
+    --shadow-card: 0 1px 0 rgba(255,255,255,.6) inset, 0 6px 24px rgba(20,28,60,.08);
+  }
 
-  .hero-meta { gap: 1.5rem; }
-  .hero-meta strong { font-size: 1.6rem; }
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  html { color-scheme: dark; }
+  [data-theme="light"] html, html:has(body[data-theme="light"]) { color-scheme: light; }
 
-  .step { grid-template-columns: 44px 1fr; gap: .85rem; }
-  .step-card { padding: 1.25rem 1.25rem; }
+  body {
+    background:
+      radial-gradient(1200px 700px at 85% -10%, rgba(124,58,237,.18), transparent 60%),
+      radial-gradient(1000px 600px at -10% 10%, rgba(96,165,250,.14), transparent 55%),
+      var(--bg-0);
+    color: var(--text-0);
+    font-family: var(--font-sans);
+    font-size: var(--fs-14);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    min-height: 100vh;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  [data-theme="light"] body {
+    background:
+      radial-gradient(900px 500px at 90% -10%, rgba(124,58,237,.10), transparent 60%),
+      radial-gradient(900px 500px at -10% 5%, rgba(96,165,250,.10), transparent 60%),
+      var(--bg-0);
+  }
 
-  .footer-inner { grid-template-columns: 1fr; }
-  .footer-meta { text-align: left; grid-column: auto; }
+  a { color: inherit; text-decoration: none; }
+  button { font-family: inherit; }
 
-  /* show sticky CTA on mobile */
-  .mobile-cta { display: inline-flex; }
-  /* avoid bottom CTA covering content */
-  body { padding-bottom: 5rem; }
-}
+  /* ── Top header ───────────────────────────────────────────── */
+  .top {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    background: color-mix(in oklab, var(--bg-0) 72%, transparent);
+    border-bottom: 1px solid var(--border);
+  }
+  .top-inner {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding: 14px 28px;
+    max-width: 1680px;
+    margin: 0 auto;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    font-size: 17px;
+  }
+  .brand-mark {
+    width: 28px; height: 28px;
+    border-radius: 8px;
+    background: var(--grad);
+    box-shadow: 0 0 0 1px rgba(255,255,255,.1) inset, 0 6px 20px rgba(124,58,237,.45);
+    position: relative;
+    overflow: hidden;
+  }
+  .brand-mark::after {
+    content: "";
+    position: absolute; inset: 6px;
+    background: var(--bg-0);
+    mask: conic-gradient(from 220deg, #000 0 25%, transparent 25% 50%, #000 50% 75%, transparent 75% 100%);
+    border-radius: 4px;
+  }
+  .brand-sub { color: var(--text-2); font-weight: 500; font-size: 12px; margin-left: 4px; }
 
+  .nav {
+    display: flex;
+    gap: 4px;
+    margin-left: 8px;
+  }
+  .nav a {
+    padding: 8px 12px;
+    color: var(--text-1);
+    font-size: 13px;
+    border-radius: 8px;
+    font-weight: 500;
+  }
+  .nav a:hover { background: var(--bg-3); color: var(--text-0); }
+  .nav a.active {
+    color: var(--text-0);
+    background: var(--bg-3);
+    box-shadow: 0 0 0 1px var(--border-strong) inset;
+  }
+
+  .top-right {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px;
+    border-radius: 999px;
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    color: var(--text-1);
+    font-size: 12px;
+    font-weight: 500;
+  }
+  .dot { width: 6px; height: 6px; border-radius: 999px; background: var(--ok); box-shadow: 0 0 8px var(--ok); }
+
+  .icon-btn {
+    width: 36px; height: 36px;
+    display: inline-flex; align-items: center; justify-content: center;
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    color: var(--text-1);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform .15s ease, box-shadow .2s ease, background .2s ease;
+  }
+  .icon-btn:hover { color: var(--text-0); background: var(--bg-3); }
+  .icon-btn:active { transform: scale(.95); }
+
+  .avatar-stack { display: flex; align-items: center; }
+  .avatar-stack .av { margin-left: -8px; }
+  .av {
+    width: 28px; height: 28px; border-radius: 999px;
+    background: var(--bg-4);
+    color: var(--text-0);
+    font-size: 11px;
+    font-weight: 600;
+    display: inline-flex; align-items: center; justify-content: center;
+    border: 2px solid var(--bg-1);
+    flex: none;
+  }
+  .av-1 { background: linear-gradient(135deg,#7C3AED,#A78BFA); }
+  .av-2 { background: linear-gradient(135deg,#60A5FA,#38BDF8); }
+  .av-3 { background: linear-gradient(135deg,#F472B6,#EC4899); }
+  .av-4 { background: linear-gradient(135deg,#34D399,#10B981); }
+  .av-5 { background: linear-gradient(135deg,#FBBF24,#F59E0B); }
+  .av-6 { background: linear-gradient(135deg,#22D3EE,#06B6D4); }
+
+  .cta {
+    appearance: none;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 10px;
+    background: var(--grad);
+    color: white;
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    transition: transform .15s ease, box-shadow .25s ease, filter .2s ease;
+    box-shadow: 0 6px 20px rgba(124,58,237,.35);
+  }
+  .cta:hover { box-shadow: var(--shadow-glow); transform: translateY(-1px); filter: brightness(1.05); }
+  .cta:active { transform: translateY(0); }
+
+  .hamburger { display: none; }
+
+  /* ── Page wrapper ─────────────────────────────────────────── */
+  main {
+    max-width: 1680px;
+    margin: 0 auto;
+    padding: 28px 28px 120px;
+  }
+
+  /* ── Project header ───────────────────────────────────────── */
+  .proj {
+    display: flex; align-items: flex-end; justify-content: space-between;
+    gap: 24px; flex-wrap: wrap;
+    margin-bottom: 24px;
+  }
+  .proj-title {
+    font-size: clamp(28px, 4vw, 40px);
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    font-weight: 800;
+    margin: 0;
+  }
+  .proj-title .grad {
+    background: var(--grad);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .proj-meta {
+    margin-top: 8px;
+    color: var(--text-2);
+    font-size: 14px;
+    display: flex; gap: 16px; flex-wrap: wrap;
+  }
+  .proj-meta b { color: var(--text-1); font-weight: 600; }
+
+  .proj-actions { display: flex; gap: 8px; }
+
+  /* ── KPI cards ────────────────────────────────────────────── */
+  .kpis {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  .kpi {
+    background: var(--bg-1);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 18px 20px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--shadow-card);
+    transition: transform .25s ease, border-color .2s ease;
+  }
+  .kpi:hover { transform: translateY(-2px); border-color: var(--border-strong); }
+  .kpi::before {
+    content: "";
+    position: absolute; inset: 0;
+    background: var(--grad-soft);
+    opacity: 0;
+    transition: opacity .3s ease;
+    pointer-events: none;
+  }
+  .kpi:hover::before { opacity: 1; }
+  .kpi-label {
+    color: var(--text-2);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .kpi-value {
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-top: 8px;
+    font-variant-numeric: tabular-nums;
+  }
+  .kpi-value .sub { font-size: 14px; color: var(--text-2); font-weight: 500; margin-left: 4px; }
+  .kpi-delta {
+    margin-top: 4px;
+    font-size: 12px;
+    color: var(--text-2);
+  }
+  .kpi-delta .up { color: var(--ok); }
+  .kpi-delta .down { color: var(--danger); }
+
+  .ring {
+    --p: 60;
+    width: 56px; height: 56px;
+    border-radius: 999px;
+    background:
+      conic-gradient(from -90deg, #7C3AED 0%, #60A5FA calc(var(--p) * 1%), var(--bg-3) calc(var(--p) * 1%));
+    position: absolute; top: 16px; right: 16px;
+    display: grid; place-items: center;
+  }
+  .ring::after {
+    content: "";
+    position: absolute; inset: 5px;
+    background: var(--bg-1);
+    border-radius: 999px;
+  }
+  .ring span {
+    position: relative;
+    z-index: 1;
+    font-size: 13px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ── Toolbar ──────────────────────────────────────────────── */
+  .toolbar {
+    display: flex; align-items: center; gap: 8px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+  }
+  .seg {
+    display: inline-flex;
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 3px;
+  }
+  .seg button {
+    appearance: none; border: none; background: transparent;
+    color: var(--text-2);
+    padding: 6px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  .seg button.on {
+    background: var(--bg-4);
+    color: var(--text-0);
+    box-shadow: 0 1px 0 rgba(255,255,255,.05) inset, 0 1px 6px rgba(0,0,0,.3);
+  }
+  .search {
+    flex: 1;
+    min-width: 200px;
+    max-width: 320px;
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 8px 12px 8px 36px;
+    color: var(--text-0);
+    font-size: 13px;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%238488A0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='11' cy='11' r='8'/><line x1='21' y1='21' x2='16.65' y2='16.65'/></svg>");
+    background-repeat: no-repeat;
+    background-position: 12px center;
+    outline: none;
+  }
+  .search:focus { border-color: var(--accent-2); box-shadow: 0 0 0 3px rgba(96,165,250,.18); }
+  .toolbar-right { margin-left: auto; display: flex; align-items: center; gap: 8px; color: var(--text-2); font-size: 12px; }
+  .legend { display: inline-flex; align-items: center; gap: 6px; }
+  .legend i {
+    display: inline-block; width: 14px; height: 8px; border-radius: 2px;
+  }
+  .legend i.planned { background: rgba(124,58,237,.25); border: 1px dashed rgba(124,58,237,.55); }
+  .legend i.actual { background: var(--grad); }
+  .legend i.delay { background: var(--danger); }
+
+  /* ── WBS table ────────────────────────────────────────────── */
+  .wbs-card {
+    background: var(--bg-1);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-card);
+  }
+  .wbs-scroll {
+    overflow: auto;
+    max-height: calc(100vh - 280px);
+    min-height: 520px;
+    scrollbar-color: var(--bg-4) transparent;
+    scrollbar-width: thin;
+  }
+  .wbs-scroll::-webkit-scrollbar { width: 12px; height: 12px; }
+  .wbs-scroll::-webkit-scrollbar-track { background: transparent; }
+  .wbs-scroll::-webkit-scrollbar-thumb {
+    background: var(--bg-4); border-radius: 999px;
+    border: 3px solid var(--bg-1);
+  }
+
+  table.wbs {
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 12.5px;
+    color: var(--text-1);
+    table-layout: fixed;
+    width: max-content;
+  }
+
+  /* sticky header */
+  table.wbs thead th {
+    position: sticky;
+    background: var(--bg-2);
+    z-index: 4;
+    font-weight: 600;
+    color: var(--text-1);
+    border-right: 1px solid var(--border);
+    border-bottom: 1px solid var(--border-strong);
+    padding: 8px 10px;
+    text-align: left;
+    white-space: nowrap;
+    font-size: 11.5px;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+  table.wbs thead tr:nth-child(1) th { top: 0; }
+  table.wbs thead tr:nth-child(2) th { top: 36px; }
+  table.wbs thead tr:nth-child(3) th { top: 70px; }
+
+  /* col widths */
+  col.c-phase { width: 92px; }
+  col.c-act-sub { width: 38px; }
+  col.c-feature { width: 200px; }
+  col.c-owner { width: 110px; }
+  col.c-out { width: 150px; }
+  col.c-unit { width: 110px; }
+  col.c-md { width: 64px; }
+  col.c-weight { width: 70px; }
+  col.c-overall { width: 110px; }
+  col.c-date { width: 92px; }
+  col.c-delay { width: 64px; }
+  col.c-day { width: var(--day-w); }
+
+  /* sticky columns */
+  table.wbs th.sticky-l, table.wbs td.sticky-l {
+    position: sticky;
+    background: var(--bg-1);
+    z-index: 3;
+  }
+  table.wbs thead th.sticky-l {
+    background: var(--bg-2);
+    z-index: 6;
+  }
+  /* sticky col offsets (computed by JS via inline style); we set first col fallback */
+  table.wbs .sticky-shadow {
+    box-shadow: 6px 0 12px -8px rgba(0,0,0,.6);
+  }
+
+  /* body cells */
+  table.wbs tbody td {
+    padding: 0 10px;
+    height: var(--row-h);
+    vertical-align: middle;
+    border-right: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-1);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  table.wbs tbody tr:hover td {
+    background: var(--bg-2);
+  }
+  table.wbs tbody tr:hover td.sticky-l {
+    background: var(--bg-2);
+  }
+
+  .phase-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    border: 1px solid;
+  }
+  .phase-tag::before {
+    content: ""; width: 6px; height: 6px; border-radius: 999px;
+    background: currentColor;
+  }
+  .phase-plan { color: #A78BFA; border-color: rgba(167,139,250,.35); background: rgba(167,139,250,.10); }
+  .phase-design { color: #F472B6; border-color: rgba(244,114,182,.35); background: rgba(244,114,182,.10); }
+  .phase-dev { color: #60A5FA; border-color: rgba(96,165,250,.35); background: rgba(96,165,250,.10); }
+  .phase-test { color: #FBBF24; border-color: rgba(251,191,36,.35); background: rgba(251,191,36,.10); }
+  .phase-deploy { color: #34D399; border-color: rgba(52,211,153,.35); background: rgba(52,211,153,.10); }
+
+  .sub-tag {
+    display: inline-grid; place-items: center;
+    width: 22px; height: 22px;
+    border-radius: 6px;
+    background: var(--bg-3);
+    border: 1px solid var(--border);
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    color: var(--text-1);
+    font-weight: 600;
+  }
+  .sub-tag.on {
+    background: var(--grad);
+    color: white;
+    border-color: transparent;
+    box-shadow: 0 4px 12px rgba(124,58,237,.35);
+  }
+  .feature-cell { font-weight: 600; color: var(--text-0); font-size: 13px; }
+  .feature-cell small { display: block; color: var(--text-3); font-weight: 500; font-size: 11px; margin-top: 1px; }
+
+  .owner { display: inline-flex; align-items: center; gap: 8px; }
+  .owner .av { width: 24px; height: 24px; border: none; font-size: 10px; }
+
+  .out-pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 3px 8px;
+    border-radius: 6px;
+    background: var(--bg-3);
+    color: var(--text-1);
+    font-size: 11.5px;
+    border: 1px solid var(--border);
+  }
+
+  .progress {
+    --p: 0;
+    position: relative;
+    height: 8px;
+    width: 100%;
+    background: var(--bg-3);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+  .progress::after {
+    content: "";
+    position: absolute; left: 0; top: 0; bottom: 0;
+    width: calc(var(--p) * 1%);
+    background: var(--grad);
+    border-radius: 999px;
+    transition: width .6s cubic-bezier(.22,.61,.36,1);
+  }
+  .progress.warn::after { background: linear-gradient(135deg, #FBBF24, #F59E0B); }
+  .progress.danger::after { background: linear-gradient(135deg, #F87171, #EF4444); }
+  .progress.done::after { background: linear-gradient(135deg, #34D399, #10B981); }
+
+  .progress-wrap { display: flex; align-items: center; gap: 8px; }
+  .progress-wrap span {
+    font-variant-numeric: tabular-nums;
+    font-size: 11.5px;
+    color: var(--text-1);
+    font-weight: 600;
+    min-width: 30px;
+    text-align: right;
+  }
+
+  td.num { text-align: right; font-variant-numeric: tabular-nums; color: var(--text-1); }
+  td.date { font-variant-numeric: tabular-nums; color: var(--text-2); font-size: 11.5px; }
+  td.delay { text-align: center; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .delay-tag {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 600;
+  }
+  .delay-tag.bad { background: rgba(248,113,113,.15); color: var(--danger); border: 1px solid rgba(248,113,113,.3); }
+  .delay-tag.ok { background: rgba(52,211,153,.15); color: var(--ok); border: 1px solid rgba(52,211,153,.3); }
+  .delay-tag.zero { color: var(--text-3); }
+
+  /* Timeline cell + bars */
+  td.timeline {
+    padding: 0;
+    position: relative;
+    background-image:
+      linear-gradient(to right, var(--border) 1px, transparent 1px);
+    background-size: var(--day-w) 100%;
+    background-position: -1px 0;
+    background-color: var(--bg-1);
+  }
+  tbody tr:hover td.timeline {
+    background-color: var(--bg-2);
+  }
+
+  .bars { position: relative; height: var(--row-h); }
+  .bar {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 18px;
+    border-radius: 5px;
+    pointer-events: auto;
+    cursor: pointer;
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .bar:hover { transform: translateY(-50%) translateY(-1px); box-shadow: 0 6px 16px rgba(0,0,0,.4); z-index: 2; }
+
+  .bar.planned {
+    height: 8px;
+    top: calc(50% - 13px);
+    background: repeating-linear-gradient(
+      135deg,
+      rgba(124,58,237,.28) 0 4px,
+      rgba(124,58,237,.12) 4px 8px
+    );
+    border: 1px dashed rgba(124,58,237,.55);
+    border-radius: 4px;
+  }
+  .bar.actual {
+    background: var(--grad);
+    box-shadow: 0 2px 10px rgba(124,58,237,.35);
+    overflow: hidden;
+    display: flex; align-items: center;
+    color: white;
+    font-size: 10.5px;
+    font-weight: 600;
+    padding: 0 6px;
+    top: calc(50% + 3px);
+  }
+  .bar.actual::after {
+    content: "";
+    position: absolute; right: 0; top: 0; bottom: 0;
+    width: calc((100% - var(--p) * 1%));
+    background: rgba(0,0,0,.45);
+    backdrop-filter: brightness(.6);
+  }
+  .bar.actual .label {
+    position: relative; z-index: 1;
+    text-shadow: 0 1px 2px rgba(0,0,0,.5);
+    mix-blend-mode: normal;
+  }
+  .bar.actual.warn { background: linear-gradient(135deg, #FBBF24, #F59E0B); box-shadow: 0 2px 10px rgba(245,158,11,.4); }
+  .bar.actual.danger { background: linear-gradient(135deg, #F87171, #EF4444); box-shadow: 0 2px 10px rgba(239,68,68,.4); }
+  .bar.actual.done { background: linear-gradient(135deg, #34D399, #10B981); box-shadow: 0 2px 10px rgba(16,185,129,.35); }
+
+  .bar.delay-tail {
+    height: 8px;
+    top: calc(50% + 8px);
+    background: repeating-linear-gradient(135deg, #F87171 0 4px, #B91C1C 4px 8px);
+    border-radius: 3px;
+    opacity: .85;
+  }
+
+  /* today line */
+  .today-line {
+    position: absolute;
+    top: 0; bottom: 0;
+    width: 2px;
+    background: linear-gradient(180deg, transparent, var(--accent-2), transparent);
+    z-index: 5;
+    pointer-events: none;
+  }
+  .today-line::before {
+    content: "TODAY";
+    position: absolute;
+    top: -22px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--accent-2);
+    color: #07070C;
+    font-size: 9px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 4px;
+    letter-spacing: 0.05em;
+  }
+
+  /* month-end heavier line */
+  th.month-end, td.month-end { border-right: 1px solid var(--border-strong); }
+  th.weekend, td.weekend { background-color: color-mix(in oklab, var(--bg-2) 70%, transparent); }
+  [data-theme="light"] th.weekend, [data-theme="light"] td.weekend { background-color: rgba(15,23,42,.025); }
+
+  th.day { text-align: center; font-weight: 500; color: var(--text-2); padding: 6px 0; font-size: 10.5px; text-transform: none; letter-spacing: 0; }
+  th.day.today { color: var(--accent-2); font-weight: 700; }
+  th.month { text-align: center; color: var(--text-1); padding: 6px 8px; font-size: 11px; text-transform: none; }
+  th.month .y { color: var(--text-3); font-weight: 500; margin-right: 4px; }
+
+  /* ── Mobile bottom CTA ───────────────────────────────────── */
+  .bottom-cta {
+    display: none;
+    position: fixed;
+    bottom: 16px;
+    left: 16px;
+    right: 16px;
+    z-index: 60;
+    padding: 14px 18px;
+    border: none;
+    border-radius: 14px;
+    background: var(--grad);
+    color: white;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: -0.005em;
+    cursor: pointer;
+    box-shadow: 0 16px 40px rgba(124,58,237,.45), 0 0 0 1px rgba(255,255,255,.08) inset;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  .bottom-cta:active { transform: scale(.98); }
+
+  /* ── Mobile menu sheet ───────────────────────────────────── */
+  .sheet-back {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,.5);
+    backdrop-filter: blur(4px);
+    z-index: 70;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .2s ease;
+  }
+  .sheet {
+    position: fixed;
+    top: 0; right: 0; bottom: 0;
+    width: min(320px, 86vw);
+    background: var(--bg-1);
+    border-left: 1px solid var(--border);
+    z-index: 80;
+    transform: translateX(100%);
+    transition: transform .3s cubic-bezier(.22,.61,.36,1);
+    display: flex; flex-direction: column;
+    padding: 18px;
+  }
+  body.menu-open .sheet { transform: translateX(0); }
+  body.menu-open .sheet-back { opacity: 1; pointer-events: auto; }
+  .sheet h3 { margin: 8px 0 12px; font-size: 12px; color: var(--text-3); font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; }
+  .sheet a {
+    display: block;
+    padding: 14px 12px;
+    border-radius: 10px;
+    font-size: 15px;
+    color: var(--text-0);
+    font-weight: 600;
+  }
+  .sheet a:hover { background: var(--bg-3); }
+  .sheet-close { align-self: flex-end; }
+
+  /* ── Apply modal ─────────────────────────────────────────── */
+  .modal-back {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,.55);
+    backdrop-filter: blur(6px);
+    z-index: 100;
+    display: none;
+    align-items: center; justify-content: center;
+    padding: 16px;
+  }
+  .modal-back.open { display: flex; }
+  .modal {
+    background: var(--bg-1);
+    border: 1px solid var(--border-strong);
+    border-radius: 18px;
+    width: 100%;
+    max-width: 480px;
+    padding: 28px;
+    box-shadow: 0 30px 80px rgba(0,0,0,.6);
+    animation: pop .25s cubic-bezier(.22,1.4,.55,1);
+  }
+  @keyframes pop {
+    from { transform: scale(.95) translateY(8px); opacity: 0; }
+    to { transform: scale(1) translateY(0); opacity: 1; }
+  }
+  .modal h2 { margin: 0 0 6px; font-size: 22px; letter-spacing: -0.02em; }
+  .modal p { margin: 0 0 18px; color: var(--text-2); font-size: 14px; }
+  .field { display: block; margin-bottom: 12px; }
+  .field label { display: block; font-size: 12px; color: var(--text-2); margin-bottom: 6px; font-weight: 600; }
+  .field input, .field textarea, .field select {
+    width: 100%;
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    color: var(--text-0);
+    padding: 10px 12px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-family: inherit;
+    outline: none;
+    transition: border-color .15s ease, box-shadow .15s ease;
+  }
+  .field input:focus, .field textarea:focus, .field select:focus {
+    border-color: var(--accent-2);
+    box-shadow: 0 0 0 3px rgba(96,165,250,.18);
+  }
+  .field textarea { min-height: 88px; resize: vertical; }
+  .modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 8px; }
+  .btn-secondary {
+    appearance: none; border: 1px solid var(--border-strong);
+    background: var(--bg-2); color: var(--text-1);
+    padding: 10px 16px; border-radius: 10px;
+    font-weight: 600; font-size: 13px; cursor: pointer;
+  }
+  .btn-secondary:hover { background: var(--bg-3); }
+
+  /* ── Fade-in ─────────────────────────────────────────────── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity .6s cubic-bezier(.22,.61,.36,1), transform .6s cubic-bezier(.22,.61,.36,1);
+  }
+  .reveal.in {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* ── Responsive ──────────────────────────────────────────── */
+  @media (max-width: 1024px) {
+    .nav { display: none; }
+  }
+  @media (max-width: 768px) {
+    main { padding: 18px 14px 120px; }
+    .top-inner { padding: 12px 14px; gap: 12px; }
+    .brand-sub { display: none; }
+    .top-right .cta, .top-right .pill { display: none; }
+    .hamburger { display: inline-flex; }
+    .bottom-cta { display: inline-flex; }
+    .kpis { grid-template-columns: repeat(2, 1fr); }
+    .kpi-value { font-size: 26px; }
+    .proj-title { font-size: 28px; }
+    .proj-actions .cta { display: none; }
+    .wbs-scroll { max-height: calc(100vh - 320px); }
+    .toolbar-right { display: none; }
+  }
 </style>
 </head>
-<body>
+<body data-theme="dark">
 
-<!-- ───────── HEADER ───────── -->
-<header class="site-header" role="banner">
-  <a href="#hero" class="brand" aria-label="Vibe Coding 홈으로">
-    <span class="brand-mark" aria-hidden="true">
-      <span class="dot d1"></span><span class="dot d2"></span><span class="dot d3"></span>
-    </span>
-    <span class="brand-name">Vibe<span class="brand-accent">Coding</span></span>
-  </a>
-
-  <nav class="site-nav" aria-label="주요 메뉴">
-    <a href="#audience">대상</a>
-    <a href="#results">결과물</a>
-    <a href="#curriculum">커리큘럼</a>
-    <a href="#apply">신청</a>
-  </nav>
-
-  <div class="header-actions">
-    <button id="themeToggle" class="theme-toggle" type="button" aria-label="테마 전환" title="테마 전환">
-      <svg class="icon icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1" stroke-linecap="round"/></svg>
-      <svg class="icon icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg>
-    </button>
-    <button id="menuToggle" class="menu-toggle" type="button" aria-label="메뉴 열기" aria-expanded="false" aria-controls="mobileNav">
-      <span></span><span></span><span></span>
-    </button>
+<header class="top" role="banner">
+  <div class="top-inner">
+    <div class="brand" aria-label="Atlas WBS">
+      <div class="brand-mark" aria-hidden="true"></div>
+      <span>ATLAS<span class="brand-sub"> · WBS</span></span>
+    </div>
+    <nav class="nav" aria-label="주 메뉴">
+      <a href="#" class="active">대시보드</a>
+      <a href="#">WBS</a>
+      <a href="#">간트차트</a>
+      <a href="#">이슈</a>
+      <a href="#">리포트</a>
+    </nav>
+    <div class="top-right">
+      <span class="pill"><span class="dot"></span>실시간 동기화 중</span>
+      <div class="avatar-stack" aria-label="프로젝트 멤버">
+        <span class="av av-1">KJ</span>
+        <span class="av av-2">PM</span>
+        <span class="av av-3">LS</span>
+        <span class="av av-4">CW</span>
+        <span class="av av-5">+3</span>
+      </div>
+      <button class="icon-btn" id="themeToggle" aria-label="테마 전환" title="테마 전환">
+        <svg id="iconMoon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+      <button class="cta" id="applyBtnTop" aria-label="지금 신청하기">지금 신청하기</button>
+      <button class="icon-btn hamburger" id="menuBtn" aria-label="메뉴 열기" aria-expanded="false">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+    </div>
   </div>
 </header>
 
-<!-- Mobile nav drawer -->
-<div id="mobileNav" class="mobile-nav" hidden>
-  <a href="#audience">대상</a>
-  <a href="#results">결과물</a>
-  <a href="#curriculum">커리큘럼</a>
-  <a href="#apply">신청</a>
-</div>
+<main role="main">
 
-<main id="main">
-
-  <!-- ───────── 1. HERO ───────── -->
-  <section id="hero" class="hero reveal" aria-labelledby="heroTitle">
-    <div class="hero-bg" aria-hidden="true">
-      <div class="orb orb-a"></div>
-      <div class="orb orb-b"></div>
-      <div class="grid-overlay"></div>
-    </div>
-
-    <div class="hero-inner">
-      <span class="eyebrow">
-        <span class="pulse" aria-hidden="true"></span>
-        Vibe Coding · 업무 자동화 실전 교육
-      </span>
-
-      <h1 id="heroTitle" class="hero-title">
-        본업에 <span class="grad-text">집중하세요</span>
+  <!-- ── Project header ─────────────────────────────────── -->
+  <section class="proj reveal" aria-labelledby="projTitle">
+    <div>
+      <h1 class="proj-title" id="projTitle">
+        모바일 커머스 앱 <span class="grad">리뉴얼 v2.0</span>
       </h1>
-      <p class="hero-sub">
-        반복 업무는 AI에게. 당신은 본업에 집중하세요.
-      </p>
-
-      <form class="apply-form hero-form" data-apply-form novalidate aria-label="강의 신청 (Hero)">
-        <label class="sr-only" for="emailHero">이메일</label>
-        <input
-          id="emailHero"
-          type="email"
-          name="email"
-          inputmode="email"
-          autocomplete="email"
-          required
-          placeholder="이메일을 입력하면 강의 정보를 보내드립니다"
-        />
-        <button type="submit" class="btn btn-primary">
-          <span>지금 신청하기</span>
-          <svg viewBox="0 0 24 24" aria-hidden="true" class="btn-arrow"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </button>
-      </form>
-
-      <ul class="hero-meta" aria-label="강의 구성">
-        <li><strong>5</strong><span>핵심 모듈</span></li>
-        <li><strong>100%</strong><span>실습 기반</span></li>
-        <li><strong>0</strong><span>코딩 경험 필요</span></li>
-      </ul>
+      <div class="proj-meta">
+        <span><b>PRJ-2026-038</b></span>
+        <span>기간 · <b>2026.04.01 ~ 2026.06.30</b></span>
+        <span>PM · <b>박민수</b></span>
+        <span>최종 업데이트 · <b id="updatedAt">방금 전</b></span>
+      </div>
+    </div>
+    <div class="proj-actions">
+      <button class="btn-secondary" aria-label="필터">＋ 단위업무 추가</button>
+      <button class="cta" aria-label="공정 리포트 발송" id="reportBtn">리포트 발송</button>
     </div>
   </section>
 
-  <!-- ───────── 2. AUDIENCE ───────── -->
-  <section id="audience" class="section reveal" aria-labelledby="audienceTitle">
-    <header class="section-head">
-      <span class="section-tag">For Who</span>
-      <h2 id="audienceTitle" class="section-title">이런 분들을 위한 교육입니다</h2>
-      <p class="section-desc">하나라도 해당된다면, Vibe Coding이 가장 빠른 길입니다.</p>
-    </header>
-
-    <div class="cards cards-3">
-      <article class="card audience-card">
-        <div class="card-num">01</div>
-        <div class="card-icon" aria-hidden="true">
-          <svg viewBox="0 0 32 32"><rect x="6" y="4" width="20" height="24" rx="2"/><path d="M10 10h12M10 14h12M10 18h8" stroke-linecap="round"/></svg>
-        </div>
-        <h3>긴 문서를 빠르게<br/>요약하고 싶은 분</h3>
-        <p>회의록·보고서·논문을 몇 초 안에 핵심만 추려내는 워크플로우를 만듭니다.</p>
-      </article>
-
-      <article class="card audience-card">
-        <div class="card-num">02</div>
-        <div class="card-icon" aria-hidden="true">
-          <svg viewBox="0 0 32 32"><rect x="4" y="6" width="24" height="18" rx="2"/><path d="M4 11h24M9 17h6M9 20h10" stroke-linecap="round"/></svg>
-        </div>
-        <h3>홍보용 랜딩페이지가<br/>필요한 분</h3>
-        <p>디자이너·개발자 없이도 브랜드에 맞는 랜딩페이지를 직접 만들고 배포합니다.</p>
-      </article>
-
-      <article class="card audience-card">
-        <div class="card-num">03</div>
-        <div class="card-icon" aria-hidden="true">
-          <svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="10"/><path d="M11 14c1 2 3 3 5 3s4-1 5-3M12 12h.01M20 12h.01" stroke-linecap="round"/></svg>
-        </div>
-        <h3>AI 기반 앱을<br/>직접 만들고 싶은 분</h3>
-        <p>OpenAI API를 활용한 챗봇·에이전트를 처음부터 끝까지 직접 구현합니다.</p>
-      </article>
-    </div>
+  <!-- ── KPI ────────────────────────────────────────────── -->
+  <section class="kpis reveal" aria-label="프로젝트 요약 지표">
+    <article class="kpi">
+      <div class="ring" style="--p: 47;"><span>47%</span></div>
+      <div class="kpi-label">전체 공정률</div>
+      <div class="kpi-value">47<span class="sub">%</span></div>
+      <div class="kpi-delta"><span class="up">▲ 6.2%p</span> &nbsp;지난주 대비</div>
+    </article>
+    <article class="kpi">
+      <div class="kpi-label">완료 / 전체 업무</div>
+      <div class="kpi-value">3<span class="sub"> / 12</span></div>
+      <div class="kpi-delta">진행 중 6 · 대기 3</div>
+    </article>
+    <article class="kpi">
+      <div class="kpi-label">총 M/D · 가중치 합</div>
+      <div class="kpi-value">114<span class="sub"> MD · 100%</span></div>
+      <div class="kpi-delta">예측 잔여 60 MD</div>
+    </article>
+    <article class="kpi">
+      <div class="kpi-label">지연 단위업무</div>
+      <div class="kpi-value" style="color: var(--danger);">2<span class="sub" style="color: var(--text-2);"> 건</span></div>
+      <div class="kpi-delta"><span class="down">평균 +3.5 일</span> &nbsp;즉시 대응 필요</div>
+    </article>
   </section>
 
-  <!-- ───────── 3. RESULTS ───────── -->
-  <section id="results" class="section reveal" aria-labelledby="resultsTitle">
-    <header class="section-head">
-      <span class="section-tag">What You'll Build</span>
-      <h2 id="resultsTitle" class="section-title">
-        교육을 들으면 <span class="grad-text">이런 것들</span>을 만들 수 있습니다
-      </h2>
-      <p class="section-desc">강의가 끝날 때, 당신의 손에는 작동하는 결과물이 남습니다.</p>
-    </header>
-
-    <div class="cards cards-3 results">
-      <article class="card result-card">
-        <div class="preview preview-landing" aria-hidden="true">
-          <div class="browser-bar">
-            <span></span><span></span><span></span>
-            <em>your-brand.com</em>
-          </div>
-          <div class="preview-body">
-            <div class="bar bar-lg"></div>
-            <div class="bar bar-md"></div>
-            <div class="pill"></div>
-            <div class="preview-grid">
-              <div></div><div></div><div></div>
-            </div>
-          </div>
-        </div>
-        <div class="result-meta">
-          <span class="tag">No.1</span>
-          <h3>랜딩 페이지</h3>
-          <p>브랜드 톤에 맞춘 반응형 랜딩페이지를 직접 디자인·배포합니다.</p>
-        </div>
-      </article>
-
-      <article class="card result-card">
-        <div class="preview preview-flow" aria-hidden="true">
-          <div class="flow-node n1">PDF</div>
-          <div class="flow-arrow a1"></div>
-          <div class="flow-node n2 accent">AI 요약</div>
-          <div class="flow-arrow a2"></div>
-          <div class="flow-node n3">Slack</div>
-          <div class="flow-spark"></div>
-        </div>
-        <div class="result-meta">
-          <span class="tag">No.2</span>
-          <h3>업무 자동화</h3>
-          <p>파일 정리, 문서 요약, 보고서 작성까지 반복 업무를 자동 파이프라인으로.</p>
-        </div>
-      </article>
-
-      <article class="card result-card">
-        <div class="preview preview-chat" aria-hidden="true">
-          <div class="msg msg-bot">무엇을 도와드릴까요?</div>
-          <div class="msg msg-user">이번 주 매출 요약해줘</div>
-          <div class="msg msg-bot typing">
-            <span></span><span></span><span></span>
-          </div>
-        </div>
-        <div class="result-meta">
-          <span class="tag">No.3</span>
-          <h3>나만의 챗봇</h3>
-          <p>OpenAI API로 우리 업무 맥락을 이해하는 전용 AI 에이전트를 만듭니다.</p>
-        </div>
-      </article>
+  <!-- ── Toolbar ────────────────────────────────────────── -->
+  <div class="toolbar reveal" role="toolbar" aria-label="공정표 필터">
+    <div class="seg" role="tablist">
+      <button class="on" role="tab" aria-selected="true">전체</button>
+      <button role="tab" aria-selected="false">진행 중</button>
+      <button role="tab" aria-selected="false">지연</button>
+      <button role="tab" aria-selected="false">완료</button>
     </div>
-  </section>
-
-  <!-- ───────── 4. CURRICULUM ───────── -->
-  <section id="curriculum" class="section reveal" aria-labelledby="curriculumTitle">
-    <header class="section-head">
-      <span class="section-tag">Curriculum</span>
-      <h2 id="curriculumTitle" class="section-title">5단계 커리큘럼</h2>
-      <p class="section-desc">한 단계씩 따라오면, 마지막엔 작동하는 AI 에이전트가 손에 쥐어집니다.</p>
-    </header>
-
-    <ol class="timeline" aria-label="커리큘럼 단계">
-      <li class="step reveal">
-        <div class="step-rail"><span class="step-dot"></span></div>
-        <article class="step-card">
-          <div class="step-head">
-            <span class="step-num">STEP 01</span>
-            <h3>바이브 코딩의 이해</h3>
-          </div>
-          <p class="step-body">AI와 함께 일하는 새로운 방식, "Vibe Coding"의 개념과 워크플로우를 익힙니다.</p>
-          <ul class="step-unlock">
-            <li>AI 협업의 기본 멘탈 모델</li>
-            <li>업무 자동화의 4단계 사고법</li>
-          </ul>
-        </article>
-      </li>
-
-      <li class="step reveal">
-        <div class="step-rail"><span class="step-dot"></span></div>
-        <article class="step-card">
-          <div class="step-head">
-            <span class="step-num">STEP 02</span>
-            <h3>Claude Code 가이드</h3>
-          </div>
-          <p class="step-body">자연어로 코드를 만들고 수정하는 Claude Code 사용법을 처음부터 배웁니다.</p>
-          <ul class="step-unlock">
-            <li>설치부터 첫 프로젝트까지</li>
-            <li>요청을 잘 쓰는 프롬프트 패턴</li>
-          </ul>
-        </article>
-      </li>
-
-      <li class="step reveal">
-        <div class="step-rail"><span class="step-dot"></span></div>
-        <article class="step-card">
-          <div class="step-head">
-            <span class="step-num">STEP 03</span>
-            <h3>파일 정리 자동화하기</h3>
-          </div>
-          <p class="step-body">매일 반복하는 다운로드·문서 정리를 스크립트 한 줄로 끝냅니다.</p>
-          <ul class="step-unlock">
-            <li>폴더 자동 분류 스크립트</li>
-            <li>주간 보고서 자동 생성</li>
-          </ul>
-        </article>
-      </li>
-
-      <li class="step reveal">
-        <div class="step-rail"><span class="step-dot"></span></div>
-        <article class="step-card">
-          <div class="step-head">
-            <span class="step-num">STEP 04</span>
-            <h3>랜딩 페이지 제작</h3>
-          </div>
-          <p class="step-body">HTML/CSS를 몰라도 브랜드에 맞는 랜딩페이지를 디자인하고 실제로 배포합니다.</p>
-          <ul class="step-unlock">
-            <li>섹션 구조 설계 → 반응형 적용</li>
-            <li>실제 도메인에 배포까지</li>
-          </ul>
-        </article>
-      </li>
-
-      <li class="step reveal">
-        <div class="step-rail"><span class="step-dot"></span></div>
-        <article class="step-card highlight">
-          <div class="step-head">
-            <span class="step-num">STEP 05</span>
-            <h3>OpenAI 에이전트 만들기</h3>
-          </div>
-          <p class="step-body">OpenAI API로 내 업무 맥락을 이해하는 챗봇·에이전트를 직접 빌드합니다.</p>
-          <ul class="step-unlock">
-            <li>OpenAI API 연결 & 프롬프트 설계</li>
-            <li>대화 기록과 도구(tool) 호출 구현</li>
-          </ul>
-        </article>
-      </li>
-    </ol>
-
-    <!-- Second CTA -->
-    <div id="apply" class="apply-block reveal">
-      <h3 class="apply-title">지금이 가장 좋은 타이밍입니다</h3>
-      <p class="apply-desc">강의 일정과 얼리버드 혜택을 가장 먼저 받아보세요.</p>
-      <form class="apply-form" data-apply-form novalidate aria-label="강의 신청 (하단)">
-        <label class="sr-only" for="emailBottom">이메일</label>
-        <input
-          id="emailBottom"
-          type="email"
-          name="email"
-          inputmode="email"
-          autocomplete="email"
-          required
-          placeholder="이메일을 입력하면 강의 정보를 보내드립니다"
-        />
-        <button type="submit" class="btn btn-primary">
-          <span>지금 신청하기</span>
-          <svg viewBox="0 0 24 24" aria-hidden="true" class="btn-arrow"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </button>
-      </form>
-    </div>
-  </section>
-
-</main>
-
-<!-- ───────── 5. FOOTER ───────── -->
-<footer class="site-footer" role="contentinfo">
-  <div class="footer-inner">
-    <div class="footer-brand">
-      <span class="brand-name">Vibe<span class="brand-accent">Coding</span></span>
-      <p class="footer-tag">반복 업무는 AI에게. 본업에 집중하세요.</p>
-    </div>
-
-    <nav class="footer-links" aria-label="푸터 메뉴">
-      <a href="#audience">대상</a>
-      <a href="#results">결과물</a>
-      <a href="#curriculum">커리큘럼</a>
-      <a href="#apply">신청</a>
-      <a href="/cdn-cgi/l/email-protection#97e4fafdf4e5f2f6e3f2d7f9f6e1f2e5b9f4f8fa">문의</a>
-    </nav>
-
-    <div class="footer-meta">
-      <small>© 2026 Vibe Coding. All rights reserved.</small>
+    <input class="search" type="search" placeholder="기능 · 담당자 · 산출물 검색" aria-label="공정표 검색" />
+    <div class="toolbar-right">
+      <span class="legend"><i class="planned"></i>예정</span>
+      <span class="legend"><i class="actual"></i>실적</span>
+      <span class="legend"><i class="delay"></i>지연</span>
     </div>
   </div>
-</footer>
 
-<!-- ───────── MOBILE STICKY CTA ───────── -->
-<a href="#apply" class="mobile-cta" id="mobileCta" aria-label="지금 신청하기 — 신청 섹션으로 이동">
+  <!-- ── WBS table ──────────────────────────────────────── -->
+  <section class="wbs-card reveal" aria-label="WBS 공정표">
+    <div class="wbs-scroll" id="wbsScroll" tabindex="0">
+      <table class="wbs" id="wbsTable" aria-label="작업 분류 체계">
+        <colgroup id="wbsCols"></colgroup>
+        <thead id="wbsHead"></thead>
+        <tbody id="wbsBody"></tbody>
+      </table>
+    </div>
+  </section>
+</main>
+
+<!-- ── Mobile bottom CTA ────────────────────────────────── -->
+<button class="bottom-cta" id="applyBtnMobile" aria-label="지금 신청하기">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4 20-7z"/></svg>
   지금 신청하기
-  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-</a>
+</button>
 
-<!-- ───────── TOAST ───────── -->
-<div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+<!-- ── Mobile menu ──────────────────────────────────────── -->
+<div class="sheet-back" id="sheetBack" aria-hidden="true"></div>
+<aside class="sheet" id="sheet" aria-label="모바일 메뉴" aria-hidden="true">
+  <button class="icon-btn sheet-close" id="sheetClose" aria-label="메뉴 닫기">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+  </button>
+  <h3>메뉴</h3>
+  <a href="#">대시보드</a>
+  <a href="#">WBS</a>
+  <a href="#">간트차트</a>
+  <a href="#">이슈</a>
+  <a href="#">리포트</a>
+  <h3 style="margin-top: 16px;">프로젝트</h3>
+  <a href="#">모바일 커머스 앱 리뉴얼 v2.0</a>
+  <a href="#">관리자 콘솔 개편</a>
+</aside>
+
+<!-- ── Apply modal ──────────────────────────────────────── -->
+<div class="modal-back" id="modalBack" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-hidden="true">
+  <form class="modal" id="applyForm">
+    <h2 id="modalTitle">프로젝트 참여 신청</h2>
+    <p>입력하신 내용은 <b><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="691a04030a1b0c081d0c2907081f0c1b470a0604">[email&#160;protected]</a></b> 으로 전달됩니다.</p>
+    <label class="field"><span>이름</span><input name="name" required autocomplete="name" placeholder="홍길동" /></label>
+    <label class="field"><span>이메일</span><input type="email" name="email" required autocomplete="email" placeholder="you@example.com" /></label>
+    <label class="field"><span>관심 영역</span>
+      <select name="role">
+        <option>기획 / PM</option>
+        <option>UX / UI 디자인</option>
+        <option>프론트엔드 개발</option>
+        <option>백엔드 개발</option>
+        <option>QA / 테스트</option>
+      </select>
+    </label>
+    <label class="field"><span>메시지</span><textarea name="message" placeholder="간단한 자기소개와 합류 희망 시기를 알려주세요."></textarea></label>
+    <div class="modal-actions">
+      <button type="button" class="btn-secondary" id="modalCancel">취소</button>
+      <button type="submit" class="cta">신청 메일 발송</button>
+    </div>
+  </form>
+</div>
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-/* ─────────────────────────────────────────
-   Vibe Coding — Landing Interactions
-───────────────────────────────────────── */
-(() => {
-  const qs  = (sel, el = document) => el.querySelector(sel);
-  const qsa = (sel, el = document) => [...el.querySelectorAll(sel)];
+/* ──────────────────────────────────────────────────────────
+ * Data
+ * ────────────────────────────────────────────────────────── */
+const PROJECT_START = new Date(2026, 3, 1);   // 2026-04-01
+const PROJECT_END   = new Date(2026, 5, 30);  // 2026-06-30
+const TODAY = new Date(2026, 4, 21);          // 2026-05-21
 
-  /* ───── Theme toggle (Dark/Light) ───── */
-  const html = document.documentElement;
-  const themeBtn = qs('#themeToggle');
-  const stored = (() => {
-    try { return localStorage.getItem('vc-theme'); } catch { return null; }
-  })();
-  if (stored === 'light' || stored === 'dark') {
-    html.setAttribute('data-theme', stored);
+const TASKS = [
+  { phase:"기획", phaseKey:"plan", subs:{a:true,b:true,c:false}, feature:"사용자 리서치", sub:"심층 인터뷰 · 설문", owner:"김지영", ownerAv:"av-1", out:"리서치 보고서",
+    unit:100, md:5, weight:8, ps:"2026-04-01", pe:"2026-04-07", as:"2026-04-01", ae:"2026-04-08", delay:1 },
+  { phase:"기획", phaseKey:"plan", subs:{a:true,b:true,c:true}, feature:"경쟁사 벤치마킹", sub:"국내·해외 12개사", owner:"김지영", ownerAv:"av-1", out:"분석 자료",
+    unit:100, md:3, weight:5, ps:"2026-04-06", pe:"2026-04-12", as:"2026-04-06", ae:"2026-04-12", delay:0 },
+  { phase:"기획", phaseKey:"plan", subs:{a:true,b:true,c:true}, feature:"서비스 정의 & IA", sub:"기획서 v1.0 확정", owner:"박민수", ownerAv:"av-2", out:"기획서 v1.0",
+    unit:100, md:7, weight:10, ps:"2026-04-10", pe:"2026-04-20", as:"2026-04-10", ae:"2026-04-19", delay:0 },
+
+  { phase:"디자인", phaseKey:"design", subs:{a:true,b:true,c:false}, feature:"와이어프레임 설계", sub:"42개 스크린", owner:"이수진", ownerAv:"av-3", out:"와이어프레임",
+    unit:85, md:10, weight:10, ps:"2026-04-15", pe:"2026-04-30", as:"2026-04-15", ae:"2026-05-02", delay:2 },
+  { phase:"디자인", phaseKey:"design", subs:{a:true,b:false,c:false}, feature:"메인 UI 디자인", sub:"홈·검색·카테고리", owner:"이수진", ownerAv:"av-3", out:"UI 시안 v1",
+    unit:65, md:8, weight:10, ps:"2026-04-25", pe:"2026-05-10", as:"2026-04-26", ae:"", delay:0 },
+  { phase:"디자인", phaseKey:"design", subs:{a:true,b:false,c:false}, feature:"상세 UI · 결제 플로우", sub:"PDP · Cart · Pay", owner:"정유나", ownerAv:"av-5", out:"UI 시안 v1",
+    unit:40, md:12, weight:10, ps:"2026-05-04", pe:"2026-05-22", as:"2026-05-06", ae:"", delay:0 },
+
+  { phase:"개발", phaseKey:"dev", subs:{a:true,b:false,c:false}, feature:"FE · 메인 페이지", sub:"React Native · iOS/AOS", owner:"최우진", ownerAv:"av-4", out:"앱 소스코드",
+    unit:35, md:15, weight:12, ps:"2026-05-04", pe:"2026-05-30", as:"2026-05-06", ae:"", delay:0 },
+  { phase:"개발", phaseKey:"dev", subs:{a:false,b:false,c:false}, feature:"FE · 상품·검색 페이지", sub:"PDP · SRP · Filter", owner:"최우진", ownerAv:"av-4", out:"앱 소스코드",
+    unit:12, md:12, weight:8, ps:"2026-05-18", pe:"2026-06-12", as:"2026-05-20", ae:"", delay:0 },
+  { phase:"개발", phaseKey:"dev", subs:{a:true,b:true,c:false}, feature:"BE · API & 인증", sub:"GraphQL · OAuth 2.0", owner:"한지원", ownerAv:"av-6", out:"API 문서 · 서버",
+    unit:72, md:10, weight:8, ps:"2026-04-20", pe:"2026-05-25", as:"2026-04-20", ae:"", delay:0 },
+  { phase:"개발", phaseKey:"dev", subs:{a:false,b:false,c:false}, feature:"BE · 결제 모듈", sub:"PG 연동 · 정산", owner:"한지원", ownerAv:"av-6", out:"결제 API",
+    unit:22, md:14, weight:7, ps:"2026-05-10", pe:"2026-06-15", as:"2026-05-14", ae:"", delay:4 },
+
+  { phase:"테스트", phaseKey:"test", subs:{a:false,b:false,c:false}, feature:"QA · 통합 테스트", sub:"E2E · 회귀 · 부하", owner:"윤서연", ownerAv:"av-3", out:"테스트 보고서",
+    unit:0, md:8, weight:7, ps:"2026-06-01", pe:"2026-06-20", as:"", ae:"", delay:0 },
+
+  { phase:"배포", phaseKey:"deploy", subs:{a:false,b:false,c:false}, feature:"배포 자동화 · 운영", sub:"CI/CD · 모니터링", owner:"최우진", ownerAv:"av-4", out:"배포 스크립트",
+    unit:0, md:5, weight:5, ps:"2026-06-15", pe:"2026-06-30", as:"", ae:"", delay:0 },
+];
+
+/* ──────────────────────────────────────────────────────────
+ * Date helpers
+ * ────────────────────────────────────────────────────────── */
+function parseDate(s){ if(!s) return null; const [y,m,d]=s.split("-").map(Number); return new Date(y,m-1,d); }
+function dayDiff(a,b){ return Math.round((b - a) / 86400000); }
+function isSameDay(a,b){ return a && b && a.getFullYear()===b.getFullYear() && a.getMonth()===b.getMonth() && a.getDate()===b.getDate(); }
+function fmt(d){ if(!d) return "—"; return `${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,"0")}.${String(d.getDate()).padStart(2,"0")}`; }
+
+/* Generate day list for project range */
+const DAYS = (() => {
+  const out = [];
+  let d = new Date(PROJECT_START);
+  while (d <= PROJECT_END) {
+    out.push(new Date(d));
+    d.setDate(d.getDate()+1);
   }
-  const syncThemeLabel = () => {
-    const next = html.getAttribute('data-theme') === 'dark' ? '라이트' : '다크';
-    themeBtn?.setAttribute('aria-label', `${next} 모드로 전환`);
-    themeBtn?.setAttribute('title', `${next} 모드로 전환`);
-  };
-  syncThemeLabel();
-  themeBtn?.addEventListener('click', () => {
-    const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-    html.setAttribute('data-theme', next);
-    try { localStorage.setItem('vc-theme', next); } catch {}
-    syncThemeLabel();
-  });
+  return out;
+})();
+const TOTAL_DAYS = DAYS.length;
+const DAY_W = 28;
 
-  /* ───── Mobile menu ───── */
-  const menuBtn = qs('#menuToggle');
-  const mobileNav = qs('#mobileNav');
-  const setMenu = (open) => {
-    if (!menuBtn || !mobileNav) return;
-    menuBtn.setAttribute('aria-expanded', String(open));
-    menuBtn.setAttribute('aria-label', open ? '메뉴 닫기' : '메뉴 열기');
-    mobileNav.hidden = !open;
-  };
-  menuBtn?.addEventListener('click', () => {
-    const open = menuBtn.getAttribute('aria-expanded') === 'true';
-    setMenu(!open);
+/* Group days by month */
+const MONTHS = (() => {
+  const m = [];
+  let cur = null;
+  DAYS.forEach((d, i) => {
+    const key = `${d.getFullYear()}-${d.getMonth()}`;
+    if (!cur || cur.key !== key) {
+      cur = { key, year: d.getFullYear(), month: d.getMonth()+1, span: 0, startIdx: i };
+      m.push(cur);
+    }
+    cur.span++;
   });
-  mobileNav?.addEventListener('click', (e) => {
-    if (e.target.tagName === 'A') setMenu(false);
-  });
+  return m;
+})();
 
-  /* ───── Reveal on scroll (IntersectionObserver) ───── */
-  const reveals = qsa('.reveal');
-  if ('IntersectionObserver' in window) {
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('in-view');
-          io.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.14, rootMargin: '0px 0px -8% 0px' });
-    reveals.forEach((el) => io.observe(el));
-  } else {
-    reveals.forEach((el) => el.classList.add('in-view'));
+/* ──────────────────────────────────────────────────────────
+ * Build header
+ * ────────────────────────────────────────────────────────── */
+const cols = document.getElementById("wbsCols");
+const head = document.getElementById("wbsHead");
+const body = document.getElementById("wbsBody");
+
+function buildCols(){
+  const fixed = [
+    ["c-phase",1], ["c-act-sub",3], ["c-feature",1], ["c-owner",1], ["c-out",1],
+    ["c-unit",1], ["c-md",1], ["c-weight",1], ["c-overall",1],
+    ["c-date",2], ["c-date",2], ["c-delay",1]
+  ];
+  fixed.forEach(([cls,count]) => {
+    for(let i=0;i<count;i++){
+      const c = document.createElement("col"); c.className = cls; cols.appendChild(c);
+    }
+  });
+  for(let i=0;i<TOTAL_DAYS;i++){
+    const c = document.createElement("col"); c.className = "c-day"; cols.appendChild(c);
+  }
+}
+
+function buildHead(){
+  // Row 1
+  const tr1 = document.createElement("tr");
+  tr1.innerHTML = `
+    <th rowspan="3" class="sticky-l">단계</th>
+    <th colspan="3">액티비티</th>
+    <th rowspan="3" class="sticky-l">기능</th>
+    <th rowspan="3" class="sticky-l">담당자</th>
+    <th rowspan="3" class="sticky-l">산출물</th>
+    <th rowspan="3" class="sticky-l">단위업무 공정률</th>
+    <th rowspan="3" class="sticky-l">M/D</th>
+    <th rowspan="3" class="sticky-l">가중치</th>
+    <th rowspan="3" class="sticky-l sticky-shadow">전체 공정율</th>
+    <th colspan="2">작업 예정일</th>
+    <th colspan="3">작업 진행일</th>
+    <th colspan="${TOTAL_DAYS}">전체 공정일</th>
+  `;
+  head.appendChild(tr1);
+
+  // Row 2 — all sub-headers rowspan=2 so row 3 contains ONLY day cells
+  const tr2 = document.createElement("tr");
+  let r2 = `<th rowspan="2">a</th><th rowspan="2">b</th><th rowspan="2">c</th>
+            <th rowspan="2">시작일</th><th rowspan="2">종료일</th>
+            <th rowspan="2">시작일</th><th rowspan="2">종료일</th><th rowspan="2">지연</th>`;
+  MONTHS.forEach(m => {
+    r2 += `<th class="month" colspan="${m.span}"><span class="y">${m.year}</span>${String(m.month).padStart(2,"0")}월</th>`;
+  });
+  tr2.innerHTML = r2;
+  head.appendChild(tr2);
+
+  // Row 3 — only day cells
+  const tr3 = document.createElement("tr");
+  let r3 = "";
+  DAYS.forEach((d, i) => {
+    const dow = d.getDay();
+    const isWeekend = dow === 0 || dow === 6;
+    const isToday = isSameDay(d, TODAY);
+    const isMonthEnd = (i === TOTAL_DAYS-1) || (DAYS[i+1] && DAYS[i+1].getDate() === 1);
+    const cls = ["day"];
+    if (isWeekend) cls.push("weekend");
+    if (isToday) cls.push("today");
+    if (isMonthEnd) cls.push("month-end");
+    r3 += `<th class="${cls.join(" ")}">${d.getDate()}</th>`;
+  });
+  tr3.innerHTML = r3;
+  head.appendChild(tr3);
+}
+
+/* ──────────────────────────────────────────────────────────
+ * Build body
+ * ────────────────────────────────────────────────────────── */
+function progressClass(t){
+  if (t.unit >= 100) return "done";
+  if (t.delay >= 3) return "danger";
+  if (t.delay > 0) return "warn";
+  return "";
+}
+function actualBarStateClass(t){
+  if (t.unit >= 100) return "done";
+  if (t.delay >= 3) return "danger";
+  if (t.delay > 0) return "warn";
+  return "";
+}
+
+function buildBody(){
+  TASKS.forEach((t, idx) => {
+    const tr = document.createElement("tr");
+    const ps = parseDate(t.ps), pe = parseDate(t.pe);
+    const as = parseDate(t.as), ae = parseDate(t.ae);
+    const pClass = progressClass(t);
+
+    // Sub a/b/c
+    const subCell = (k) => `<td style="text-align:center"><span class="sub-tag ${t.subs[k]?"on":""}">${k}</span></td>`;
+
+    // Delay
+    let delayHtml;
+    if (!t.as) delayHtml = `<span class="delay-tag zero">—</span>`;
+    else if (t.delay > 0) delayHtml = `<span class="delay-tag bad">+${t.delay}일</span>`;
+    else delayHtml = `<span class="delay-tag ok">정상</span>`;
+
+    tr.innerHTML = `
+      <td class="sticky-l"><span class="phase-tag phase-${t.phaseKey}">${t.phase}</span></td>
+      ${subCell("a")}${subCell("b")}${subCell("c")}
+      <td class="sticky-l feature-cell">${t.feature}<small>${t.sub}</small></td>
+      <td class="sticky-l"><span class="owner"><span class="av ${t.ownerAv}">${t.owner.slice(-2)}</span>${t.owner}</span></td>
+      <td class="sticky-l"><span class="out-pill">📄 ${t.out.replace("📄 ","")}</span></td>
+      <td class="sticky-l">
+        <div class="progress-wrap">
+          <div class="progress ${pClass}" style="--p:${t.unit}"></div>
+          <span>${t.unit}%</span>
+        </div>
+      </td>
+      <td class="sticky-l num">${t.md}</td>
+      <td class="sticky-l num">${t.weight}%</td>
+      <td class="sticky-l sticky-shadow">
+        <div class="progress-wrap">
+          <div class="progress ${pClass}" style="--p:${Math.round(t.unit * t.weight / 100 * 10) / 10}"></div>
+          <span>${Math.round(t.unit * t.weight / 100 * 10) / 10}%</span>
+        </div>
+      </td>
+      <td class="date">${fmt(ps)}</td>
+      <td class="date">${fmt(pe)}</td>
+      <td class="date">${fmt(as)}</td>
+      <td class="date">${fmt(ae)}</td>
+      <td class="delay">${delayHtml}</td>
+      <td class="timeline" colspan="${TOTAL_DAYS}">
+        <div class="bars">${buildBars(t, ps, pe, as, ae)}</div>
+      </td>
+    `;
+    body.appendChild(tr);
+  });
+}
+
+function buildBars(t, ps, pe, as, ae){
+  let html = "";
+
+  // planned
+  if (ps && pe) {
+    const startIdx = Math.max(0, dayDiff(PROJECT_START, ps));
+    const endIdx = Math.min(TOTAL_DAYS-1, dayDiff(PROJECT_START, pe));
+    const left = startIdx * DAY_W + 2;
+    const width = (endIdx - startIdx + 1) * DAY_W - 4;
+    html += `<div class="bar planned" style="left:${left}px;width:${width}px" title="예정 ${fmt(ps)} ~ ${fmt(pe)}"></div>`;
   }
 
-  /* ───── Mobile sticky CTA visibility ───── */
-  const mobileCta = qs('#mobileCta');
-  const hero = qs('#hero');
-  const applyBlock = qs('#apply');
-  if (mobileCta && 'IntersectionObserver' in window) {
-    let pastHero = false;
-    let inApply = false;
-    const updateCta = () => {
-      const show = pastHero && !inApply;
-      mobileCta.classList.toggle('visible', show);
-    };
-    new IntersectionObserver(([e]) => {
-      pastHero = !e.isIntersecting;
-      updateCta();
-    }, { rootMargin: '-60% 0px 0px 0px' }).observe(hero);
-    if (applyBlock) {
-      new IntersectionObserver(([e]) => {
-        inApply = e.isIntersecting;
-        updateCta();
-      }, { threshold: 0.2 }).observe(applyBlock);
+  // actual
+  if (as) {
+    const startIdx = Math.max(0, dayDiff(PROJECT_START, as));
+    const endDate = ae || TODAY;
+    const endIdx = Math.min(TOTAL_DAYS-1, dayDiff(PROJECT_START, endDate));
+    const left = startIdx * DAY_W + 2;
+    const width = Math.max(DAY_W - 4, (endIdx - startIdx + 1) * DAY_W - 4);
+    const days = endIdx - startIdx + 1;
+    const stateCls = actualBarStateClass(t);
+    html += `<div class="bar actual ${stateCls}" style="left:${left}px;width:${width}px;--p:${t.unit}"
+              title="실적 ${fmt(as)} ~ ${fmt(ae||TODAY)} · ${t.unit}%">
+              <span class="label">${days}일 · ${t.unit}%</span>
+            </div>`;
+
+    // delay tail (if planned end exceeded)
+    if (t.delay > 0 && pe) {
+      const peIdx = Math.min(TOTAL_DAYS-1, dayDiff(PROJECT_START, pe));
+      const tailLeft = (peIdx + 1) * DAY_W + 2;
+      const tailW = t.delay * DAY_W - 4;
+      html += `<div class="bar delay-tail" style="left:${tailLeft}px;width:${tailW}px" title="지연 ${t.delay}일"></div>`;
     }
   }
 
-  /* ───── Toast helper ───── */
-  const toast = qs('#toast');
-  let toastTimer;
-  const showToast = (msg, kind = 'ok') => {
-    if (!toast) return;
-    toast.textContent = msg;
-    toast.classList.toggle('error', kind === 'error');
-    toast.hidden = false;
-    requestAnimationFrame(() => toast.classList.add('show'));
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => {
-      toast.classList.remove('show');
-      setTimeout(() => { toast.hidden = true; }, 300);
-    }, 3200);
-  };
+  return html;
+}
 
-  /* ───── Email validation ───── */
-  const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+function placeTodayLine(){
+  const idx = dayDiff(PROJECT_START, TODAY);
+  if (idx < 0 || idx >= TOTAL_DAYS) return;
+  // Insert into each timeline row
+  document.querySelectorAll(".timeline .bars").forEach(b => {
+    const l = document.createElement("div");
+    l.className = "today-line";
+    l.style.left = (idx * DAY_W + DAY_W/2) + "px";
+    if (b.parentElement.parentElement.rowIndex === 1) {
+      // also add the TODAY label only on first row
+      l.dataset.showLabel = "true";
+    }
+    b.appendChild(l);
+  });
+  // hide the label on all except first to avoid stacked labels
+  const lines = document.querySelectorAll(".today-line");
+  lines.forEach((el, i) => {
+    if (i !== 0) el.style.setProperty("--hide-label","1");
+  });
+  // Use CSS to hide via attribute - but we already hide via positioning at top; ensure only one shows
+  const sheet = document.createElement("style");
+  sheet.textContent = `.today-line:not(:nth-of-type(1))::before { display: none; }
+                       tbody tr:not(:first-child) .today-line::before { display: none; }`;
+  document.head.appendChild(sheet);
+}
 
-  /* ───── Apply form submission → mailto:smjcreate@naver.com ───── */
-  const TO = 'smjcreate@naver.com';
-  const SUBJECT = '[Vibe Coding] 강의 신청 문의';
-
-  qsa('[data-apply-form]').forEach((form) => {
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const input = form.querySelector('input[type="email"]');
-      const email = (input?.value || '').trim();
-      if (!EMAIL_RE.test(email)) {
-        showToast('올바른 이메일 주소를 입력해 주세요.', 'error');
-        input?.focus();
-        return;
-      }
-      const body =
-        `Vibe Coding 강의에 관심을 가져주셔서 감사합니다.\n\n` +
-        `▶ 신청자 이메일: ${email}\n` +
-        `▶ 신청 시각: ${new Date().toLocaleString('ko-KR')}\n\n` +
-        `강의 일정과 안내를 보내드리겠습니다.`;
-      const mailto =
-        `mailto:${TO}?subject=${encodeURIComponent(SUBJECT)}` +
-        `&body=${encodeURIComponent(body)}`;
-      // Open the user's mail client
-      window.location.href = mailto;
-
-      showToast(`신청 메일을 준비했습니다. (${email})`);
-      input.value = '';
-    });
+/* ──────────────────────────────────────────────────────────
+ * Sticky column offsets — measure & assign `left:` on each
+ * sticky cell in the header & body.
+ * ────────────────────────────────────────────────────────── */
+function applyStickyOffsets(){
+  // collect col widths in order of left-sticky columns:
+  // 단계, 기능, 담당자, 산출물, 단위공정률, M/D, 가중치, 전체공정율
+  // The sticky cells are class="sticky-l" in row order; we need cumulative left.
+  // Approach: pick the first body row, measure each sticky-l td's offsetWidth, accumulate.
+  const firstRow = body.querySelector("tr");
+  if (!firstRow) return;
+  const stickyTds = firstRow.querySelectorAll("td.sticky-l");
+  let left = 0;
+  const offsets = [];
+  stickyTds.forEach(td => {
+    offsets.push(left);
+    left += td.getBoundingClientRect().width;
   });
 
-  /* ───── Smooth scroll for in-page anchors (respect reduced motion fallback) ───── */
-  qsa('a[href^="#"]').forEach((a) => {
-    a.addEventListener('click', (e) => {
-      const id = a.getAttribute('href');
-      if (!id || id === '#') return;
-      const target = document.querySelector(id);
-      if (!target) return;
-      // Let native smooth-scroll handle it; just close mobile nav.
-      setMenu(false);
+  // Apply to every sticky-l td in body
+  body.querySelectorAll("tr").forEach(tr => {
+    tr.querySelectorAll("td.sticky-l").forEach((td, i) => {
+      td.style.left = offsets[i] + "px";
     });
   });
-})();
+  // Apply to header sticky cells. The header has these sticky-l ths (in row 1, with rowspan):
+  // we put them in identical order: 단계, 기능, 담당자, 산출물, 단위공정률, M/D, 가중치, 전체공정율
+  const headStickies = head.querySelectorAll("th.sticky-l");
+  headStickies.forEach((th, i) => {
+    th.style.left = offsets[i] + "px";
+  });
+}
 
+/* ──────────────────────────────────────────────────────────
+ * Init
+ * ────────────────────────────────────────────────────────── */
+buildCols();
+buildHead();
+buildBody();
+placeTodayLine();
+requestAnimationFrame(() => {
+  applyStickyOffsets();
+  // scroll to today
+  const idx = dayDiff(PROJECT_START, TODAY);
+  const scroll = document.getElementById("wbsScroll");
+  if (idx > 5) {
+    const stickyWidth = [...body.querySelector("tr").querySelectorAll("td.sticky-l")]
+      .reduce((s, td) => s + td.getBoundingClientRect().width, 0);
+    scroll.scrollLeft = Math.max(0, idx * DAY_W - scroll.clientWidth/2 + stickyWidth/2);
+  }
+});
+window.addEventListener("resize", () => { applyStickyOffsets(); });
+
+/* ──────────────────────────────────────────────────────────
+ * Theme toggle (persisted)
+ * ────────────────────────────────────────────────────────── */
+const themeBtn = document.getElementById("themeToggle");
+const iconMoon = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>`;
+const iconSun = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>`;
+function applyTheme(mode){
+  document.body.dataset.theme = mode;
+  document.documentElement.style.colorScheme = mode;
+  themeBtn.innerHTML = mode === "dark" ? iconMoon : iconSun;
+  themeBtn.setAttribute("aria-label", mode === "dark" ? "라이트 모드로 전환" : "다크 모드로 전환");
+}
+const savedTheme = localStorage.getItem("atlas_theme") || (matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");
+applyTheme(savedTheme);
+themeBtn.addEventListener("click", () => {
+  const next = document.body.dataset.theme === "dark" ? "light" : "dark";
+  applyTheme(next);
+  localStorage.setItem("atlas_theme", next);
+});
+
+/* ──────────────────────────────────────────────────────────
+ * Mobile menu
+ * ────────────────────────────────────────────────────────── */
+const menuBtn = document.getElementById("menuBtn");
+const sheetBack = document.getElementById("sheetBack");
+const sheetClose = document.getElementById("sheetClose");
+function openMenu(){ document.body.classList.add("menu-open"); menuBtn.setAttribute("aria-expanded","true"); }
+function closeMenu(){ document.body.classList.remove("menu-open"); menuBtn.setAttribute("aria-expanded","false"); }
+menuBtn.addEventListener("click", openMenu);
+sheetClose.addEventListener("click", closeMenu);
+sheetBack.addEventListener("click", closeMenu);
+
+/* ──────────────────────────────────────────────────────────
+ * Apply modal + mailto
+ * ────────────────────────────────────────────────────────── */
+const modal = document.getElementById("modalBack");
+const form = document.getElementById("applyForm");
+function openModal(){ modal.classList.add("open"); modal.setAttribute("aria-hidden","false"); setTimeout(()=>form.querySelector("input").focus(), 100); }
+function closeModal(){ modal.classList.remove("open"); modal.setAttribute("aria-hidden","true"); }
+document.getElementById("applyBtnTop").addEventListener("click", openModal);
+document.getElementById("applyBtnMobile").addEventListener("click", openModal);
+document.getElementById("reportBtn").addEventListener("click", openModal);
+document.getElementById("modalCancel").addEventListener("click", closeModal);
+modal.addEventListener("click", e => { if (e.target === modal) closeModal(); });
+document.addEventListener("keydown", e => { if (e.key === "Escape") { closeModal(); closeMenu(); } });
+
+form.addEventListener("submit", e => {
+  e.preventDefault();
+  const fd = new FormData(form);
+  const name = fd.get("name") || "";
+  const email = fd.get("email") || "";
+  const role = fd.get("role") || "";
+  const message = fd.get("message") || "";
+  const subject = encodeURIComponent(`[Atlas WBS] 프로젝트 참여 신청 - ${name}`);
+  const body = encodeURIComponent(
+    `안녕하세요, Atlas WBS 프로젝트 참여를 신청합니다.\n\n` +
+    `■ 이름: ${name}\n` +
+    `■ 이메일: ${email}\n` +
+    `■ 관심 영역: ${role}\n\n` +
+    `■ 메시지:\n${message}\n`
+  );
+  window.location.href = `mailto:smjcreate@naver.com?subject=${subject}&body=${body}`;
+  closeModal();
+});
+
+/* ──────────────────────────────────────────────────────────
+ * IntersectionObserver fade-in
+ * ────────────────────────────────────────────────────────── */
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }});
+}, { threshold: 0.08, rootMargin: "0px 0px -40px 0px" });
+document.querySelectorAll(".reveal").forEach(el => io.observe(el));
+
+/* ──────────────────────────────────────────────────────────
+ * Updated-at "방금 전" ticker
+ * ────────────────────────────────────────────────────────── */
+let updatedSec = 0;
+const updatedEl = document.getElementById("updatedAt");
+setInterval(() => {
+  updatedSec += 30;
+  if (updatedSec < 60) updatedEl.textContent = "방금 전";
+  else if (updatedSec < 3600) updatedEl.textContent = `${Math.floor(updatedSec/60)}분 전`;
+  else updatedEl.textContent = `${Math.floor(updatedSec/3600)}시간 전`;
+}, 30000);
 </script>
+
 </body>
 </html>
