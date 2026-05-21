@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vibe Coding — 본업에 집중하세요</title>
+    <link rel="stylesheet" href="landing.css">
+</head>
+<body data-theme="dark">
+
+<!-- ========== HEADER ========== -->
+<header>
+    <a href="#hero" class="logo" aria-label="Vibe Coding 홈">⚡ Vibe Coding 교육</a>
+
+    <div class="header-right">
+        <nav class="desktop-nav" aria-label="주요 메뉴">
+            <a href="#target">대상</a>
+            <a href="#results">결과물</a>
+            <a href="#curriculum">커리큘럼</a>
+            <a href="#faq">FAQ</a>
+        </nav>
+
+        <button class="theme-btn" id="themeBtn" aria-label="라이트/다크 모드 전환">
+            <span id="themeIcon">☀️</span>
+            <span id="themeLabel">라이트</span>
+        </button>
+
+        <button class="hamburger" id="hamburger" aria-label="메뉴 열기" aria-expanded="false" aria-controls="mobileNav">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
+</header>
+
+<!-- Mobile nav -->
+<nav class="mobile-nav" id="mobileNav" aria-label="모바일 메뉴">
+    <a href="#target"     onclick="closeNav()">대상</a>
+    <a href="#results"    onclick="closeNav()">결과물</a>
+    <a href="#curriculum" onclick="closeNav()">커리큘럼</a>
+    <a href="#faq"        onclick="closeNav()">FAQ</a>
+</nav>
+
+<!-- ========== MAIN ========== -->
+<main>
+
+    <!-- HERO -->
+    <section id="hero" aria-labelledby="heroHeading">
+        
+
+        <h1 id="heroHeading">본업에<br>집중하세요</h1>
+
+        <p class="hero-sub">반복 업무는 AI에게 맡기고, 본업에만 집중하세요</p>
+
+        <form class="cta-form" id="heroForm" aria-label="강의 신청 폼" novalidate>
+            <div class="input-row">
+                <input
+                    type="email"
+                    id="heroEmail"
+                    class="cta-input"
+                    placeholder="이메일을 입력하면 강의 정보를 보내드립니다"
+                    aria-label="이메일 주소 입력"
+                    autocomplete="email"
+                    required
+                />
+                <button type="submit" class="btn-primary" aria-label="지금 신청하기">지금 신청하기</button>
+            </div>
+        </form>
+    </section>
+
+    <!-- TARGET -->
+    <section id="target" aria-labelledby="targetHeading">
+        <div class="inner">
+            <span class="tag-label">이런 분들께 추천합니다</span>
+            <h2 id="targetHeading">당신을 위한 강의입니다</h2>
+            <p class="section-desc">반복되는 업무에 지쳐있다면, AI로 달라지는 일상을 경험하세요.</p>
+
+            <div class="grid-3" role="list">
+                <article class="target-card reveal" role="listitem" aria-label="추천 대상 1">
+                    <span class="card-icon" aria-hidden="true">📄</span>
+                    <h3>긴 문서를 빠르게 요약하고 싶은 분</h3>
+                    <p>수십 페이지 보고서도 AI가 핵심만 뽑아드립니다. 문서 분석 시간을 90% 이상 단축하세요.</p>
+                </article>
+                <article class="target-card reveal" role="listitem" aria-label="추천 대상 2">
+                    <span class="card-icon" aria-hidden="true">🎨</span>
+                    <h3>홍보용 랜딩페이지가 필요한 분</h3>
+                    <p>코딩 몰라도 괜찮습니다. AI와 함께 전문적인 홍보 페이지를 직접 만들어보세요.</p>
+                </article>
+                <article class="target-card reveal" role="listitem" aria-label="추천 대상 3">
+                    <span class="card-icon" aria-hidden="true">🤖</span>
+                    <h3>AI 기반 앱을 직접 만들고 싶은 분</h3>
+                    <p>아이디어만 있으면 충분합니다. AI를 활용해 나만의 자동화 앱을 완성하세요.</p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- RESULTS -->
+    <section id="results" aria-labelledby="resultsHeading">
+        <div class="inner">
+            <span class="tag-label">결과물</span>
+            <h2 id="resultsHeading">교육을 들으면 이런 것들을 만들 수 있습니다</h2>
+            <p class="section-desc">실습 중심으로 구성되어, 교육이 끝나면 실제 결과물을 손에 쥐게 됩니다.</p>
+
+            <div class="grid-3" role="list">
+                <article class="result-card reveal" role="listitem" aria-label="결과물: 랜딩페이지">
+                    <div class="result-thumb" aria-hidden="true">🌐</div>
+                    <div class="result-body">
+                        <h3>랜딩페이지</h3>
+                        <p>반응형 디자인의 전문적인 홍보 페이지를 HTML/CSS/JS로 직접 구현합니다.</p>
+                    </div>
+                </article>
+                <article class="result-card reveal" role="listitem" aria-label="결과물: 업무자동화">
+                    <div class="result-thumb" aria-hidden="true">⚙️</div>
+                    <div class="result-body">
+                        <h3>업무자동화</h3>
+                        <p>파일 정리, 문서 요약, 데이터 처리를 자동으로 처리하는 스크립트를 만듭니다.</p>
+                    </div>
+                </article>
+                <article class="result-card reveal" role="listitem" aria-label="결과물: 챗봇">
+                    <div class="result-thumb" aria-hidden="true">💬</div>
+                    <div class="result-body">
+                        <h3>챗봇</h3>
+                        <p>OpenAI API를 활용한 나만의 AI 에이전트 챗봇 서비스를 만듭니다.</p>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- CURRICULUM -->
+    <section id="curriculum" aria-labelledby="curriculumHeading">
+        <div class="inner">
+            <span class="tag-label">커리큘럼</span>
+            <h2 id="curriculumHeading">5단계로 완성하는 AI 업무 자동화</h2>
+            <p class="section-desc">기초부터 실전까지, 따라가기만 해도 완성됩니다.</p>
+
+            <div class="step-grid" role="list">
+                <article class="step-card reveal" role="listitem" aria-label="STEP 1: 바이브 코딩의 이해">
+                    <div class="step-num">STEP 01</div>
+                    <h3>바이브 코딩의 이해</h3>
+                    <p class="step-outcome">AI와 함께 코딩하는 새로운 패러다임을 이해하고, 아이디어를 빠르게 코드로 구현할 수 있게 됩니다.</p>
+                </article>
+                <article class="step-card reveal" role="listitem" aria-label="STEP 2: Claude Code 가이드">
+                    <div class="step-num">STEP 02</div>
+                    <h3>Claude Code 가이드</h3>
+                    <p class="step-outcome">Claude Code로 복잡한 코드를 자연어로 작성하고, AI와 협업하는 개발 환경을 갖출 수 있게 됩니다.</p>
+                </article>
+                <article class="step-card reveal" role="listitem" aria-label="STEP 3: 파일정리 자동화">
+                    <div class="step-num">STEP 03</div>
+                    <h3>파일정리 자동화</h3>
+                    <p class="step-outcome">반복적인 파일 정리·문서 분류 작업을 자동화 스크립트로 만들어 수작업을 없앨 수 있게 됩니다.</p>
+                </article>
+                <article class="step-card reveal" role="listitem" aria-label="STEP 4: 랜딩 페이지 제작">
+                    <div class="step-num">STEP 04</div>
+                    <h3>랜딩 페이지 제작</h3>
+                    <p class="step-outcome">디자인 감각 없이도 전문적인 홍보 페이지를 AI와 함께 제작하고 실제 서비스에 적용할 수 있게 됩니다.</p>
+                </article>
+                <article class="step-card reveal" role="listitem" aria-label="STEP 5: AI 에이전트 만들기">
+                    <div class="step-num">STEP 05</div>
+                    <h3>AI 에이전트 만들기</h3>
+                    <p class="step-outcome">OpenAI API를 활용한 나만의 AI 챗봇과 업무 자동화 에이전트를 직접 개발하고 배포할 수 있게 됩니다.</p>
+                </article>
+            </div>
+
+            <!-- Curriculum CTA -->
+            <div class="cta-block">
+                <p>지금 바로 시작하세요. 자리가 한정되어 있습니다.</p>
+                <form class="cta-form" id="curriculumForm" aria-label="강의 신청 폼" novalidate>
+                    <div class="input-row">
+                        <input
+                            type="email"
+                            id="curriculumEmail"
+                            class="cta-input"
+                            placeholder="이메일을 입력하면 강의 정보를 보내드립니다"
+                            aria-label="이메일 주소 입력"
+                            autocomplete="email"
+                            required
+                        />
+                        <button type="submit" class="btn-primary" aria-label="지금 신청하기">지금 신청하기</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" aria-labelledby="faqHeading">
+        <div class="inner">
+            <span class="tag-label">FAQ</span>
+            <h2 id="faqHeading">자주 묻는 질문</h2>
+            <p class="section-desc">궁금한 점이 있으시면 아래에서 확인해보세요.</p>
+
+            <div class="faq-list" role="list">
+                <div class="faq-item" role="listitem">
+                    <button class="faq-q" aria-expanded="false" onclick="toggleFaq(this)">
+                        코딩 경험이 없어도 수강 가능한가요?
+                        <span class="faq-arrow" aria-hidden="true">▼</span>
+                    </button>
+                    <div class="faq-a" role="region">
+                        <div class="faq-a-inner">
+                            네, 전혀 문제없습니다. 이 교육은 코딩 경험이 없는 분들도 AI와 함께 결과물을 만들 수 있도록 설계되었습니다. 자연어로 AI에게 지시하는 방법부터 차근차근 배워갑니다.
+                        </div>
+                    </div>
+                </div>
+                <div class="faq-item" role="listitem">
+                    <button class="faq-q" aria-expanded="false" onclick="toggleFaq(this)">
+                        어떤 장비가 필요한가요?
+                        <span class="faq-arrow" aria-hidden="true">▼</span>
+                    </button>
+                    <div class="faq-a" role="region">
+                        <div class="faq-a-inner">
+                            인터넷이 연결된 노트북이면 충분합니다. Windows, Mac 모두 지원하며 별도의 고사양 장비는 필요하지 않습니다.
+                        </div>
+                    </div>
+                </div>
+                <div class="faq-item" role="listitem">
+                    <button class="faq-q" aria-expanded="false" onclick="toggleFaq(this)">
+                        교육 후 실제 업무에 바로 적용할 수 있나요?
+                        <span class="faq-arrow" aria-hidden="true">▼</span>
+                    </button>
+                    <div class="faq-a" role="region">
+                        <div class="faq-a-inner">
+                            네, 교육 중 만드는 모든 결과물은 실제 업무에 바로 활용할 수 있습니다. 실습 위주 커리큘럼으로 구성되어 교육이 끝나는 날부터 바로 적용 가능합니다.
+                        </div>
+                    </div>
+                </div>
+                <div class="faq-item" role="listitem">
+                    <button class="faq-q" aria-expanded="false" onclick="toggleFaq(this)">
+                        수료 후에도 지원이 있나요?
+                        <span class="faq-arrow" aria-hidden="true">▼</span>
+                    </button>
+                    <div class="faq-a" role="region">
+                        <div class="faq-a-inner">
+                            수료 후에도 커뮤니티를 통해 지속적인 Q&A 지원과 업데이트된 학습 자료를 제공합니다. 함께 성장하는 커뮤니티에 참여하세요.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+    <div class="inner">
+        <div class="footer-logo">⚡ Vibe Coding</div>
+        <nav class="footer-links" aria-label="푸터 메뉴">
+            <a href="#hero">홈</a>
+            <a href="#target">교육 대상</a>
+            <a href="#results">결과물</a>
+            <a href="#curriculum">커리큘럼</a>
+            <a href="#faq">FAQ</a>
+        </nav>
+        <p class="footer-copy">© 2026 Vibe Coding — AI 업무 자동화 교육. All rights reserved.</p>
+    </div>
+</footer>
+
+<!-- MOBILE FIXED CTA -->
+<div class="mobile-cta-bar" aria-label="모바일 신청 버튼 영역">
+    <button class="btn-primary" onclick="scrollToSignup()" aria-label="신청하기 — 상단 신청 폼으로 이동">
+        🚀 지금 신청하기
+    </button>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast" role="alert" aria-live="polite" aria-atomic="true"></div>
+
+<!-- ========== SCRIPT ========== -->
+<script>
+(function () {
+    'use strict';
+
+    /* ---- Theme ---- */
+    const body       = document.body;
+    const themeBtn   = document.getElementById('themeBtn');
+    const themeIcon  = document.getElementById('themeIcon');
+    const themeLabel = document.getElementById('themeLabel');
+
+    function applyTheme(theme) {
+        body.setAttribute('data-theme', theme);
+        if (theme === 'dark') {
+            themeIcon.textContent  = '☀️';
+            themeLabel.textContent = '라이트';
+        } else {
+            themeIcon.textContent  = '🌙';
+            themeLabel.textContent = '다크';
+        }
+        localStorage.setItem('vcTheme', theme);
+    }
+
+    themeBtn.addEventListener('click', () => {
+        applyTheme(body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+    });
+
+    applyTheme(localStorage.getItem('vcTheme') || 'dark');
+
+    /* ---- Hamburger ---- */
+    const hamburger = document.getElementById('hamburger');
+    const mobileNav = document.getElementById('mobileNav');
+
+    hamburger.addEventListener('click', () => {
+        const open = mobileNav.classList.toggle('is-open');
+        hamburger.classList.toggle('is-open', open);
+        hamburger.setAttribute('aria-expanded', open);
+        hamburger.setAttribute('aria-label', open ? '메뉴 닫기' : '메뉴 열기');
+    });
+
+    window.closeNav = function () {
+        mobileNav.classList.remove('is-open');
+        hamburger.classList.remove('is-open');
+        hamburger.setAttribute('aria-expanded', 'false');
+        hamburger.setAttribute('aria-label', '메뉴 열기');
+    };
+
+    /* ---- CTA scroll ---- */
+    window.scrollToSignup = function () {
+        const heroSection = document.getElementById('hero');
+        heroSection.scrollIntoView({ behavior: 'smooth' });
+        setTimeout(() => document.getElementById('heroEmail').focus(), 700);
+    };
+
+    /* ---- Email submit ---- */
+    function handleSubmit(e, inputId) {
+        e.preventDefault();
+        const input = document.getElementById(inputId);
+        const email = input.value.trim();
+        if (!email) { input.focus(); return; }
+
+        const subject = encodeURIComponent('Vibe Coding 강의 신청');
+        const body    = encodeURIComponent(
+            '안녕하세요,\n\nVibe Coding 강의 정보를 요청합니다.\n\n신청자 이메일: ' + email + '\n\n빠른 연락 부탁드립니다.\n감사합니다.'
+        );
+
+        window.location.href = 'mailto:smjcreate@naver.com?subject=' + subject + '&body=' + body;
+        showToast('신청 완료! 곧 강의 정보를 보내드리겠습니다 ✅');
+        input.value = '';
+    }
+
+    document.getElementById('heroForm').addEventListener('submit', function (e) { handleSubmit(e, 'heroEmail'); });
+    document.getElementById('curriculumForm').addEventListener('submit', function (e) { handleSubmit(e, 'curriculumEmail'); });
+
+    /* ---- Toast ---- */
+    let toastTimer;
+    function showToast(msg) {
+        const toast = document.getElementById('toast');
+        toast.textContent = msg;
+        toast.classList.add('show');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => toast.classList.remove('show'), 3800);
+    }
+
+    /* ---- FAQ accordion ---- */
+    window.toggleFaq = function (btn) {
+        const item   = btn.closest('.faq-item');
+        const isOpen = item.classList.toggle('is-open');
+        btn.setAttribute('aria-expanded', isOpen);
+
+        document.querySelectorAll('.faq-item.is-open').forEach(function (other) {
+            if (other !== item) {
+                other.classList.remove('is-open');
+                other.querySelector('.faq-q').setAttribute('aria-expanded', 'false');
+            }
+        });
+    };
+
+    /* ---- Scroll reveal (IntersectionObserver) ---- */
+    if ('IntersectionObserver' in window) {
+        const io = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry, i) {
+                if (entry.isIntersecting) {
+                    setTimeout(function () {
+                        entry.target.classList.add('is-visible');
+                    }, i * 90);
+                    io.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.12 });
+
+        document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
+    } else {
+        document.querySelectorAll('.reveal').forEach(function (el) {
+            el.classList.add('is-visible');
+        });
+    }
+})();
+</script>
+
+</body>
+</html>
